@@ -1,0 +1,8 @@
+/Users/manishjha/Documents/public_codes/awesome-solutions/eshop/eshop-common/src/main/java/com/eshop/app/common/constants/AppConstants.java
+/Users/manishjha/Documents/public_codes/awesome-solutions/eshop/eshop-common/src/main/java/com/eshop/app/common/entities/rdbms/Catalog.java
+/Users/manishjha/Documents/public_codes/awesome-solutions/eshop/eshop-common/src/main/java/com/eshop/app/common/entities/rdbms/Product.java
+/Users/manishjha/Documents/public_codes/awesome-solutions/eshop/eshop-common/src/main/java/com/eshop/app/common/repositories/rdbms/CatalogRepository.java
+/Users/manishjha/Documents/public_codes/awesome-solutions/eshop/eshop-common/src/main/java/com/eshop/app/common/entities/rdbms/User.java
+/Users/manishjha/Documents/public_codes/awesome-solutions/eshop/eshop-common/src/main/java/com/eshop/app/common/constants/Role.java
+/Users/manishjha/Documents/public_codes/awesome-solutions/eshop/eshop-common/src/main/java/com/eshop/app/common/entities/rdbms/Tenant.java
+/Users/manishjha/Documents/public_codes/awesome-solutions/eshop/eshop-common/src/main/java/com/eshop/app/common/entities/rdbms/Category.java

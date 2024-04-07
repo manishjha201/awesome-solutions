@@ -1,0 +1,8 @@
+com/eshop/app/services/catalogue/ISearchCatalogueService.class
+com/eshop/app/config/CassandraConfig.class
+com/eshop/app/config/DBConfig.class
+com/eshop/app/services/catalogue/IInventoryCountService.class
+com/eshop/app/EShopApplication.class
+com/eshop/app/controllers/CatalogueSearchController.class
+com/eshop/app/services/catalogue/InventoryCountService.class
+com/eshop/app/services/catalogue/SearchCatalogueService.class
