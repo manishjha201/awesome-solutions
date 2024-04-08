@@ -5,14 +5,11 @@ import lombok.ToString;
 
 @Getter
 @ToString
-public enum Currency {
-    USD("USD", "USD"), INR("INR", "INR");
-
-    private final String code;
+public enum Status {
+    ACTIVE("Active"), INACTIVE("Inactive"), DELETED("Deleted");
     private final String value;
 
-    Currency(String code, String value) {
-        this.code = code;
+    Status(String value) {
         this.value = value;
     }
 }

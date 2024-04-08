@@ -1,8 +1,10 @@
 package com.eshop.app.common.constants;
 
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
+@ToString
 public enum EShopResultCode {
 
     SUCCESS("00000", "S", "Success"),
