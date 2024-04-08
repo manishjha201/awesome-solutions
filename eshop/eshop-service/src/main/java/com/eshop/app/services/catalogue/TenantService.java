@@ -1,7 +1,7 @@
 package com.eshop.app.services.catalogue;
 
 import com.eshop.app.common.entities.nosql.Tenant;
-import com.eshop.app.common.repositories.nosql.TenantRepository;
+import com.eshop.app.common.repositories.nosql.cassandra.TenantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

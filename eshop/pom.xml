@@ -50,6 +50,7 @@
     <eshop.common.version>1.0-SNAPSHOT</eshop.common.version>
     <javax.api.version>8.0.1</javax.api.version>
     <spring.boot.data.jdbc.version>2.7.18</spring.boot.data.jdbc.version>
+    <spring.boot.starter.data.elasticsearch.version>2.7.18</spring.boot.starter.data.elasticsearch.version>
     <mysql.connector.version>8.0.17</mysql.connector.version>
     <jnuit.version>4.11</jnuit.version>
     <apache.commons.lang.version>3.12.0</apache.commons.lang.version>
@@ -100,6 +101,11 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-data-jdbc</artifactId>
         <version>${spring.boot.data.jdbc.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
+        <version>${spring.boot.starter.data.elasticsearch.version}</version>
       </dependency>
       <dependency>
         <groupId>mysql</groupId>

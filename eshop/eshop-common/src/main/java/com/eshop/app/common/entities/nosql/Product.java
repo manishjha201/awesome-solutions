@@ -1,5 +1,6 @@
 package com.eshop.app.common.entities.nosql;
 
+import com.eshop.app.common.constants.Currency;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -31,6 +32,8 @@ public class Product {
 
     private BigDecimal price;
 
+    private Currency currency;
+
     private UUID catalogId;
 
     private UUID categoryId;
@@ -47,9 +50,14 @@ public class Product {
 
     private LocalDateTime lastUpdatedAt;
 
-    private boolean isActive;
+    private Boolean isActive;
 
-    private int version;
+    private Integer version;
+
+    private Integer count;
+
+    private Integer minStockQuantity;
+
 
     public JsonNode toJsonNode() {
         ObjectMapper objectMapper = new ObjectMapper();
