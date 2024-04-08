@@ -1,4 +1,4 @@
-package com.eshop.app.common.repositories.nosql;
+package com.eshop.app.common.repositories.nosql.cassandra;
 
 import com.eshop.app.common.entities.nosql.Category;
 import org.springframework.data.cassandra.repository.CassandraRepository;

@@ -1,4 +1,4 @@
-package com.eshop.app.common.repositories.nosql;
+package com.eshop.app.common.repositories.nosql.cassandra;
 
 import com.eshop.app.common.entities.nosql.Catalog;
 import com.eshop.app.common.entities.nosql.Product;

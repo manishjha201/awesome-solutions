@@ -2,7 +2,7 @@ package com.eshop.app.services.catalogue;
 
 import com.eshop.app.common.constants.EShopResultCode;
 import com.eshop.app.common.entities.nosql.Product;
-import com.eshop.app.common.repositories.nosql.ProductRepository;
+import com.eshop.app.common.repositories.nosql.cassandra.ProductRepository;
 import com.eshop.app.exception.ResourceNotFoundException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;

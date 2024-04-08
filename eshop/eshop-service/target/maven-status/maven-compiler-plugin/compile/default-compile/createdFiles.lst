@@ -16,5 +16,6 @@ com/eshop/app/services/catalogue/ITenantService.class
 com/eshop/app/controllers/EShopProductController.class
 com/eshop/app/controllers/CatalogueSearchController.class
 com/eshop/app/services/catalogue/TenantService.class
+com/eshop/app/config/ElasticsearchConfig.class
 com/eshop/app/services/catalogue/SearchCatalogueService.class
 com/eshop/app/controllers/TenantController.class

@@ -16,8 +16,8 @@ import java.util.UUID;
 public class Category {
     @PrimaryKey
     private UUID categoryId;
-
     private String name;
+    private String description; //TODO
     private UUID tenantId;
     private boolean isActive;
 }

@@ -1,7 +1,7 @@
 package com.eshop.app.services.catalogue;
 
 import com.eshop.app.common.entities.nosql.Category;
-import com.eshop.app.common.repositories.nosql.CategoryRepository;
+import com.eshop.app.common.repositories.nosql.cassandra.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
