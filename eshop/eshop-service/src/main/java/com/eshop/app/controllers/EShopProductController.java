@@ -1,7 +1,7 @@
 package com.eshop.app.controllers;
 
 import com.eshop.app.common.entities.nosql.Product;
-import com.eshop.app.services.catalogue.ProductService;
+import com.eshop.app.exception.services.catalogue.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
