@@ -1,6 +1,5 @@
 package com.eshop.app.config;
 
-import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
 import org.elasticsearch.client.RestClient;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpHost;
@@ -15,6 +14,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.elasticsearch.config.AbstractElasticsearchConfiguration;
+import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
+import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 
 
@@ -36,7 +37,7 @@ public class ElasticsearchConfig extends AbstractElasticsearchConfiguration  {
     @Value("${eshop.elasticsearch.password}")
     private String password;
 
-
+    /*
     @Bean
     @Override
     public RestHighLevelClient elasticsearchClient() {
@@ -50,6 +51,26 @@ public class ElasticsearchConfig extends AbstractElasticsearchConfiguration  {
                     }
                 });
         return new RestHighLevelClient(builder);
+    }
+     */
+    @Override
+    @Bean(destroyMethod = "close")
+    public RestHighLevelClient elasticsearchClient() {
+        RestClientBuilder builder = RestClient.builder(
+                        new HttpHost(elasticsearchHost, elasticsearchPort))
+                .setHttpClientConfigCallback(httpClientBuilder -> {
+                    CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
+                    credentialsProvider.setCredentials(AuthScope.ANY,
+                            new UsernamePasswordCredentials(username,
+                                    password));
+                    return httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider);
+                });
+        return new RestHighLevelClient(builder);
+    }
+
+    @Bean
+    public ElasticsearchOperations elasticsearchTemplate() {
+        return new ElasticsearchRestTemplate(elasticsearchClient());
     }
 
 }

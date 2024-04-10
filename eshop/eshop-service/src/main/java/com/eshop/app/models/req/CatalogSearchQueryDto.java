@@ -16,7 +16,7 @@ public class CatalogSearchQueryDto {
     private String searchValue;
     private int pageNumber;
     private int pageSize;
-    private List<Status> statusList;
+    private List<Status> statusList; //TODO : similarly add filters for Currency, CategoryID , CategoryName etc
     private String sortBy;
 
     @JsonPOJOBuilder(withPrefix = "")

@@ -9,8 +9,7 @@ public class ESFilterFactory {
 
     public static ESFilter getESFilter(FilterType filterType) {
         switch (filterType) {
-            case STATUS_FILTER:
-                return new ProductStatusFilter();
+            case STATUS_FILTER: return new ProductStatusFilter();
             default:
                 return new TextFilter();
         }

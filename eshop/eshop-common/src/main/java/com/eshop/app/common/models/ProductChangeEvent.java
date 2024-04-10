@@ -1,6 +1,6 @@
 package com.eshop.app.common.models;
 
-import com.eshop.app.common.entities.nosql.Product;
+import com.eshop.app.common.entities.nosql.cassandra.Product;
 import lombok.Builder;
 import lombok.Data;
 

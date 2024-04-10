@@ -1,7 +1,7 @@
 package com.eshop.app.controllers;
 
-import com.eshop.app.common.entities.nosql.Category;
-import com.eshop.app.exception.services.catalogue.ICategoryService;
+import com.eshop.app.common.entities.nosql.cassandra.Category;
+import com.eshop.app.services.catalog.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
