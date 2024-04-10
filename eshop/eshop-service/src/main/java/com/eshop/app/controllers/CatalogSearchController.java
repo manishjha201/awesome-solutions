@@ -6,8 +6,9 @@ import com.eshop.app.models.req.CatalogSearchQueryDto;
 import com.eshop.app.models.resp.GenericResponseBody;
 import com.eshop.app.models.resp.ResultInfo;
 import com.eshop.app.models.resp.SearchCatalogResponse;
-import com.eshop.app.exception.services.catalogue.IInventoryCountService;
-import com.eshop.app.exception.services.catalogue.ICatalogSearchService;
+import com.eshop.app.services.catalog.IInventoryCountService;
+import com.eshop.app.services.catalog.ICatalogSearchService;
+import com.eshop.app.utils.Utility;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,10 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
+/**
+ * Provides capability to search Catalog using configurable filters.
+ * return pageable products.
+ */
 @Slf4j
 @RestController
 @RequestMapping("/api/v1/catalog")
@@ -41,7 +46,7 @@ public class CatalogSearchController {
             @RequestParam(name = "page_size", defaultValue = "1") @Valid Integer pageSize,
             @RequestHeader(value = "loginId", required = false) String loginId) {
         CatalogSearchQueryDto dto = CatalogSearchQueryDto.builder()
-                .searchKey(querySearchKey)
+                .searchKey(Utility.transformInput(querySearchKey))
                 .searchValue(querySearchValue)
                 .statusList(statuses)
                 .sortBy(sortBy)

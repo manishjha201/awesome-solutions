@@ -1,23 +1,26 @@
 package com.eshop.app.models.resp;
 
+import com.eshop.app.common.entities.nosql.es.Product;
+import com.eshop.app.models.req.CatalogSearchQueryDto;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import lombok.Builder;
 import lombok.Data;
+import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.data.domain.Page;
 
-import java.util.List;
+
 
 @Data
 @Builder
 @JsonDeserialize (builder = SearchCatalogResponse.SearchCatalogResponseBuilder.class)
 public class SearchCatalogResponse {
-    private List<SearchCatalogRespModel> searchCatalogRespList;
-    private int page;
-    private int pageSize;
-    private int totalPages;
-    private int totalRecords;
-    private int maxRecords;
-
+    private Page<Product> response;
+    private CatalogSearchQueryDto request;
     @JsonPOJOBuilder(withPrefix = "")
     public static class SearchCatalogResponseBuilder {}
+
+    public boolean isEmpty() {
+        return ObjectUtils.isEmpty(response) || response.isEmpty();
+    }
 }

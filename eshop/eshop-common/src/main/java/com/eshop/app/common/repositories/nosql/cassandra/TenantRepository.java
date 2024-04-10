@@ -1,6 +1,6 @@
 package com.eshop.app.common.repositories.nosql.cassandra;
 
-import com.eshop.app.common.entities.nosql.Tenant;
+import com.eshop.app.common.entities.nosql.cassandra.Tenant;
 import org.springframework.data.cassandra.repository.CassandraRepository;
 import org.springframework.stereotype.Repository;
 

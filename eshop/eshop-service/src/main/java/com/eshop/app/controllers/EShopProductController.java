@@ -1,7 +1,7 @@
 package com.eshop.app.controllers;
 
-import com.eshop.app.common.entities.nosql.Product;
-import com.eshop.app.exception.services.catalogue.ProductService;
+import com.eshop.app.common.entities.nosql.cassandra.Product;
+import com.eshop.app.services.catalog.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/products")
+@RequestMapping("/api/v1/products")
 public class EShopProductController {
 
     @Autowired

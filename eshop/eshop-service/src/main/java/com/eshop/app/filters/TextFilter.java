@@ -1,7 +1,7 @@
 package com.eshop.app.filters;
 
 import com.eshop.app.common.constants.CatalogSearchKey;
-import com.eshop.app.constants.SearchConstants;
+import com.eshop.app.factory.CustomFieldQueryBuilderFactory;
 import com.eshop.app.models.req.CatalogSearchQueryDto;
 import com.eshop.app.utils.Utility;
 import org.apache.commons.lang3.StringUtils;
@@ -12,24 +12,13 @@ import java.util.stream.Collectors;
 
 public class TextFilter extends ESFilter {
 
-    private static final List<String> availableFilters = List.of(CatalogSearchKey.TITLE, CatalogSearchKey.DESCRIPTION).stream().map(a-> a.toString()).collect(Collectors.toList());
+    private static final List<String> whiteListedFilters = List.of(CatalogSearchKey.TITLE, CatalogSearchKey.NAME, CatalogSearchKey.PRODUCT_ID, CatalogSearchKey.ANY).stream().map(a-> a.toString()).collect(Collectors.toList());
 
     @Override
     protected BoolQueryBuilder buildQuery(CatalogSearchQueryDto dto) {
-        if (CatalogSearchKey.TITLE.toString().equals(dto.getSearchKey())) return buildTitleSearchQuery(dto);
-        return null;
-    }
-
-    private BoolQueryBuilder buildTitleSearchQuery(CatalogSearchQueryDto dto) {
-        final BoolQueryBuilder queryBuilder = new BoolQueryBuilder();
-        final BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
         String[] searchValues = dto.getSearchValue().split(",");
         String queryString = getQueryString(searchValues);
-        QueryBuilder queryBuilderForTitle = QueryBuilders.queryStringQuery(queryString).field(SearchConstants.PRODUCT_TITLE_PATH)
-                .defaultOperator(Operator.AND);
-        boolQueryBuilder.should(queryBuilderForTitle);
-        queryBuilder.should(boolQueryBuilder);
-        return queryBuilder;
+        return  new CustomFieldQueryBuilderFactory().get(dto.getSearchKey()).prepare(queryString);
     }
 
     private String getQueryString(String[] searchValues) {
@@ -38,7 +27,8 @@ public class TextFilter extends ESFilter {
             filterText = filterText.trim();
             String[] searchValueBySpace = filterText.split("\\s+");
             for(String value : searchValueBySpace) {
-                queryString = queryString.concat("*").concat(Utility.enhanceInput(value).concat("* "));
+                String enhancedString = Utility.enhanceInput(value);
+                queryString = queryString.concat("*").concat(enhancedString).concat("* ");
             }
         }
         return queryString;
@@ -49,10 +39,9 @@ public class TextFilter extends ESFilter {
         if (StringUtils.isEmpty(dto.getSearchValue())) {
             return null;
         }
-        if (availableFilters.contains(dto.getSearchKey())) {
+        if (whiteListedFilters.contains(dto.getSearchKey())) {
             return dto;
         }
-        dto.setSearchKey(CatalogSearchKey.TITLE.getLabel());
-        return dto;
+        return null;
     }
 }

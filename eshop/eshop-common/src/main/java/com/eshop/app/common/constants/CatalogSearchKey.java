@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum CatalogSearchKey {
-    TITLE("TITLE"), DESCRIPTION("DESCRIPTION"), ANY("ANY");
+    TITLE("title"), NAME("name"), PRODUCT_ID("product-id") , ANY("any");
 
     private final String label;
     private CatalogSearchKey(String label) {

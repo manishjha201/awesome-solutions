@@ -62,7 +62,7 @@ public class DBConfig {
     @Bean (name = "primaryDbConfig")
     public HikariConfig primaryDbConfig() {
         HikariConfig config = new HikariConfig();
-       // config.setDriverClassName(driverClassName);
+        config.setDriverClassName(driverClassName);
         config.setJdbcUrl(jdbcUrl);
         config.setUsername(userName);
         config.setPassword(password);
