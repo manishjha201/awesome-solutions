@@ -1,6 +1,5 @@
-package com.eshop.app.services.catalog;
+package com.eshop.app.services;
 
-import com.eshop.app.common.constants.CatalogSearchKey;
 import com.eshop.app.common.constants.Status;
 import com.eshop.app.constants.FilterType;
 import com.eshop.app.constants.SearchConstants;
@@ -10,7 +9,6 @@ import com.eshop.app.models.req.CatalogSearchQueryDto;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.elasticsearch.index.query.*;
-import org.elasticsearch.index.search.MatchQueryParser;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

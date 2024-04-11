@@ -1,8 +1,7 @@
-package com.eshop.app.services.catalog;
+package com.eshop.app.services;
 
-import com.eshop.app.common.entities.nosql.cassandra.Product;
+import com.eshop.app.common.entities.rdbms.Product;
 import com.eshop.app.exception.ResourceNotFoundException;
-
 import java.util.List;
 import java.util.UUID;
 import com.github.fge.jsonpatch.JsonPatch;

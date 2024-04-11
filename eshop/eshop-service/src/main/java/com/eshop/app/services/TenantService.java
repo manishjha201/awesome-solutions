@@ -1,10 +1,11 @@
-package com.eshop.app.services.catalog;
+package com.eshop.app.services;
 
-import com.eshop.app.common.entities.nosql.cassandra.Tenant;
-import com.eshop.app.common.repositories.nosql.cassandra.TenantRepository;
+import com.eshop.app.common.entities.rdbms.Tenant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -13,33 +14,36 @@ import java.util.UUID;
 public class TenantService implements ITenantService {
 
     @Autowired
-    private TenantRepository tenantRepository;
+    @PersistenceContext(unitName = "master")
+    private EntityManager masterEntityManager;
+
+    @Autowired
+    @PersistenceContext(unitName = "slave")
+    private EntityManager slaveEntityManager;
 
 
     @Override
     public List<Tenant> getAllTenants() {
-        return tenantRepository.findAll();
+        return null;
     }
 
     @Override
     public Optional<Tenant> getTenantById(UUID tenantId) {
-        return tenantRepository.findById(tenantId);
+        return Optional.empty();
     }
 
     @Override
     public Tenant createTenant(Tenant tenant) {
-        return tenantRepository.save(tenant);
+        return null;
     }
 
     @Override
     public Tenant updateTenant(UUID tenantId, Tenant updatedTenant) {
-        //TODO
-        updatedTenant.setTenantId(tenantId);
-        return tenantRepository.save(updatedTenant);
+        return null;
     }
 
     @Override
     public void deleteTenant(UUID tenantId) {
-        tenantRepository.deleteById(tenantId);
+
     }
 }

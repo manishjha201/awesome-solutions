@@ -4,5 +4,5 @@ import lombok.ToString;
 
 @ToString
 public enum ChangeType {
-    CREATE,UPDATE,DELETE;
+    CREATE,UPDATE,DELETE
 }

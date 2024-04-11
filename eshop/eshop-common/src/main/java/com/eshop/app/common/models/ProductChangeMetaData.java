@@ -2,8 +2,8 @@ package com.eshop.app.common.models;
 
 import com.eshop.app.common.constants.ChangeType;
 import com.eshop.app.common.constants.FormType;
-import com.eshop.app.common.entities.nosql.cassandra.Tenant;
-import com.eshop.app.common.entities.nosql.cassandra.User;
+import com.eshop.app.common.entities.rdbms.Tenant;
+import com.eshop.app.common.entities.rdbms.User;
 import lombok.Builder;
 import lombok.Data;
 

@@ -4,5 +4,5 @@ import lombok.ToString;
 
 @ToString
 public enum NotificationEventType {
-    LOW_IN_INVENTORY;
+    LOW_IN_INVENTORY
 }

@@ -4,5 +4,5 @@ import lombok.ToString;
 
 @ToString
 public enum FormType {
-    ECART,ESHOPPING;
+    ECART,ESHOPPING
 }
