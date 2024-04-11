@@ -34,7 +34,7 @@ public class Product {
 
     private Currency currency;
 
-    @OneToOne(targetEntity = Inventory.class, fetch = FetchType.LAZY)
+    @OneToOne(targetEntity = Inventory.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "id")
     private Inventory inventory;
 
@@ -44,8 +44,7 @@ public class Product {
     private Category category;
     */
 
-    private int count;
-
+    @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private Status status;
 
@@ -62,13 +61,16 @@ public class Product {
     private LocalDateTime createdAt;
 
     @Column(name = "created_by")
-    private String createdBy;
+    private Long createdBy;
 
     @Column(name = "last_updated_at")
     private LocalDateTime lastUpdatedAt;
 
     @Column(name = "last_updated_by")
-    private String lastUpdatedBy;
+    private Long lastUpdatedBy;
+
+    @Column(name = "is_es_updated")
+    private Boolean isUpdatedToES;
 
     private int version;
 }

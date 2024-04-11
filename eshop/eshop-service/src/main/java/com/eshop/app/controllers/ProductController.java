@@ -1,57 +1,91 @@
 package com.eshop.app.controllers;
 
-import com.eshop.app.common.entities.rdbms.Product;
+import com.eshop.app.common.constants.EShopResultCode;
+import com.eshop.app.models.req.GetProductsRequestDto;
+import com.eshop.app.models.req.ProductReqDTO;
+import com.eshop.app.models.resp.GenericResponseBody;
+import com.eshop.app.models.resp.ProductDetailResponse;
+import com.eshop.app.models.resp.ProductsResponse;
+import com.eshop.app.models.resp.ResultInfo;
 import com.eshop.app.services.IProductService;
+import com.eshop.app.services.IValidationService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import com.github.fge.jsonpatch.JsonPatch;
+import javax.validation.Valid;
+import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/v1/products")
+@RequestMapping("admin/api/v1/products")
+@Validated
+@Slf4j
 public class ProductController {
 
     @Autowired
     private IProductService productService;
 
+    @Autowired
+    private IValidationService validationService;
+
     @PostMapping
-    public ResponseEntity<Product> createProduct(@RequestBody Product product) {
-        Product createdProduct = productService.createProduct(product);
-        return new ResponseEntity<>(createdProduct, HttpStatus.CREATED);
+    public ResponseEntity<GenericResponseBody<ProductDetailResponse>> createProduct(@RequestHeader(value = "loginId", required = false) String loginId, @Valid @RequestBody ProductReqDTO createProductReq) {
+        validationService.validate(createProductReq);
+        log.info("Request received for API={} with values : {}", "CREATE_PRODUCT_API", createProductReq);
+        ProductDetailResponse resp = productService.createProduct(createProductReq, loginId);
+        GenericResponseBody<ProductDetailResponse> body = new GenericResponseBody<>();
+        body.setResponse(resp);
+        body.setResultInfo(ResultInfo.builder().resultCode(EShopResultCode.SUCCESS).build());
+        return new ResponseEntity<>(body, HttpStatus.ACCEPTED);
     }
 
-    @GetMapping("/{productId}")
-    public ResponseEntity<Product> getProduct(@PathVariable UUID productId) {
-        Product product = productService.getProduct(productId);
-        return ResponseEntity.ok(product);
-    }
-
-    @GetMapping
-    public ResponseEntity<List<Product>> getAllProducts() {
-        List<Product> products = productService.getAllProducts();
-        return ResponseEntity.ok(products);
+    /**
+     * Get list of products.
+     * @param productIds
+     * @param loginId
+     * @return
+     */
+    //TODO : add swagger
+    @GetMapping("{productIds}")
+    public ResponseEntity<GenericResponseBody<ProductsResponse>> getProducts(@PathVariable String productIds, @RequestHeader(value = "loginId", required = false) String loginId) {
+        GetProductsRequestDto httpReq = GetProductsRequestDto.builder()
+                .productIds(Arrays.stream(productIds.split(","))
+                .map(Long::parseLong)
+                .collect(Collectors.toList()))
+                .build();
+        validationService.validate(httpReq);
+        ProductsResponse resp = productService.getProducts(httpReq, loginId);
+        GenericResponseBody<ProductsResponse> body = new GenericResponseBody<>();
+        body.setResponse(resp);
+        body.setResultInfo(ResultInfo.builder().resultCode(EShopResultCode.SUCCESS).build());
+        return new ResponseEntity<>(body, HttpStatus.OK);
     }
 
     @PutMapping("/{productId}")
-    public ResponseEntity<Product> updateProduct(@PathVariable UUID productId, @RequestBody Product product) {
-        Product updatedProduct = productService.updateProduct(productId, product);
-        return ResponseEntity.ok(updatedProduct);
+    public ResponseEntity<GenericResponseBody<ProductDetailResponse>> updateProduct(@PathVariable Long productId, @Valid @RequestBody ProductReqDTO createProductReq, @RequestHeader(value = "loginId", required = false) String loginId) {
+        validationService.validate(createProductReq);
+        log.info("Request received for API={} with values : {}", "UPDATE_PRODUCT_API", createProductReq);
+        ProductDetailResponse resp = productService.updateProduct(productId, createProductReq, loginId);
+        GenericResponseBody<ProductDetailResponse> body = new GenericResponseBody<>();
+        body.setResponse(resp);
+        body.setResultInfo(ResultInfo.builder().resultCode(EShopResultCode.SUCCESS).build());
+        return new ResponseEntity<>(body, HttpStatus.ACCEPTED);
     }
 
-    @PatchMapping("/{productId}")
-    public ResponseEntity<Product> patchProduct(@PathVariable UUID productId, @RequestBody JsonPatch patch) {
-        //Product patchedProduct = productService.patchProduct(productId, patch);
-        //return ResponseEntity.ok(patchedProduct);
-        return null;
-    }
-
+    /**
+     * Avoid physical delete.
+     * Update status to DELETED / INACTIVE.
+     * @param productIds
+     * @param loginId
+     * @return
+     */
     @DeleteMapping("/{productId}")
-    public ResponseEntity<Void> deleteProduct(@PathVariable UUID productId) {
-        productService.deleteProduct(productId);
+    public ResponseEntity<Void> deleteProduct(@PathVariable List<Long> productIds, @RequestHeader(value = "loginId", required = false) String loginId) {
+        productService.deleteProduct(productIds, loginId);
         return ResponseEntity.noContent().build();
     }
 

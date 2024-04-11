@@ -1,16 +1,17 @@
 package com.eshop.app.services;
 
-import com.eshop.app.common.entities.rdbms.Product;
 import com.eshop.app.exception.ResourceNotFoundException;
 import java.util.List;
-import java.util.UUID;
-import com.github.fge.jsonpatch.JsonPatch;
+
+import com.eshop.app.models.req.GetProductsRequestDto;
+import com.eshop.app.models.req.ProductReqDTO;
+import com.eshop.app.models.resp.ProductDetailResponse;
+import com.eshop.app.models.resp.ProductsResponse;
 
 public interface IProductService {
-    Product createProduct(Product product);
-    Product getProduct(UUID productId) throws ResourceNotFoundException;
-    List<Product> getAllProducts();
-    Product updateProduct(UUID productId, Product product);
-    Product patchProduct(UUID productId, JsonPatch patch);
-    void deleteProduct(UUID productId) throws ResourceNotFoundException;
+    ProductDetailResponse createProduct(ProductReqDTO createProductReq, String loginId);
+    ProductsResponse getProducts(GetProductsRequestDto dto, String loginId) throws ResourceNotFoundException;
+    ProductDetailResponse updateProduct(Long productId, ProductReqDTO createProductReq, String loginId);
+    //Product patchProduct(Long productId, JsonPatch patch); //TODO : pending
+    void deleteProduct(List<Long> productIds, String loginId) throws ResourceNotFoundException;
 }

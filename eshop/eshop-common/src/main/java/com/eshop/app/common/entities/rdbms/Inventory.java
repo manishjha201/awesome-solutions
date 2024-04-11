@@ -22,16 +22,19 @@ public class Inventory {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "in_stock")
     private Boolean inStock;
 
+    @Column(name = "quantity")
     private Integer quantity;
 
+    @Column(name = "reserved_quantity")
     private Integer reservedQuantity;
 
+    @Column(name = "min_stock_quantity")
     private Integer minStockQuantity;
 
-    @OneToOne(targetEntity = Product.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "id")
-    private Product product;
+    @Column(name = "product_id")
+    private Long productId;
 }
 
