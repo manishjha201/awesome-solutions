@@ -5,6 +5,7 @@ import com.eshop.app.common.constants.EShopResultCode;
 import com.eshop.app.exception.ValidationException;
 import com.eshop.app.models.req.CatalogSearchQueryDto;
 import com.eshop.app.models.req.ProductReqDTO;
+import com.eshop.app.models.req.ProductUpdateReqDTO;
 import org.apache.commons.lang3.ObjectUtils;
 
 public final class ValidateInputRequestHelper {
@@ -41,15 +42,46 @@ public final class ValidateInputRequestHelper {
         return false;
     }
 
-    public static boolean validateProductDTOReq(ProductReqDTO productReqDTO) {
+    public static boolean validateProductDTOReq(ProductReqDTO dto) {
+        if (!isSafeText(dto.getName())) {
+            throw new ValidationException(EShopResultCode.INVALID_INPUT, "One or more vales or values used are invalid or not allowed to be updated.");
+        }
+
+        if (!isSafeText(dto.getTitle())) {
+            throw new ValidationException(EShopResultCode.INVALID_INPUT, "One or more vales or values used are invalid or not allowed to be updated.");
+        }
+
+        if (!isSafeText(dto.getDescription())) {
+            throw new ValidationException(EShopResultCode.INVALID_INPUT, "One or more vales or values used are invalid or not allowed to be updated.");
+        }
 
         return true;
     }
 
     public static boolean validateReqSize(int size) {
-        if(size > 10000) { //TODO : make it configurable
+        if (size > 10000) { //TODO : make it configurable
             throw new ValidationException(EShopResultCode.INVALID_INPUT, "input request is more that max size limit allowed");
         }
         return Boolean.TRUE;
+    }
+
+    public static boolean validateProductUpdateDTOReq(ProductUpdateReqDTO dto) {
+        if (!isSafeText(dto.getName())) {
+            throw new ValidationException(EShopResultCode.INVALID_INPUT, "One or more vales or values used are invalid or not allowed to be updated.");
+        }
+
+        if (!isSafeText(dto.getTitle())) {
+            throw new ValidationException(EShopResultCode.INVALID_INPUT, "One or more vales or values used are invalid or not allowed to be updated.");
+        }
+
+        if (!isSafeText(dto.getDescription())) {
+            throw new ValidationException(EShopResultCode.INVALID_INPUT, "One or more vales or values used are invalid or not allowed to be updated.");
+        }
+
+        if (ObjectUtils.isEmpty(dto.getVersionNo()) || dto.getVersionNo() < 0) {
+            throw new ValidationException(EShopResultCode.INVALID_INPUT, "One or more vales or values used are invalid or not allowed to be updated.");
+        }
+
+        return true;
     }
 }

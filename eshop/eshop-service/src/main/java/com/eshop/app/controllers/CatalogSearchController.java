@@ -6,7 +6,6 @@ import com.eshop.app.models.req.CatalogSearchQueryDto;
 import com.eshop.app.models.resp.GenericResponseBody;
 import com.eshop.app.models.resp.ResultInfo;
 import com.eshop.app.models.resp.SearchCatalogResponse;
-import com.eshop.app.services.IInventoryCountService;
 import com.eshop.app.services.ICatalogSearchService;
 import com.eshop.app.services.IValidationService;
 import com.eshop.app.utils.Utility;
@@ -26,7 +25,7 @@ import java.util.List;
  */
 @Slf4j
 @RestController
-@RequestMapping("/api/v1/catalog")
+@RequestMapping("/user/api/v1/catalog")
 public class CatalogSearchController {
 
     private final ICatalogSearchService catalogSearchService;

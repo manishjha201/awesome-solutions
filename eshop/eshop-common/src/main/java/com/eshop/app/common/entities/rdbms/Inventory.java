@@ -36,5 +36,16 @@ public class Inventory {
 
     @Column(name = "product_id")
     private Long productId;
+
+    public com.eshop.app.common.models.kafka.Inventory build() {
+        com.eshop.app.common.models.kafka.Inventory inventory = new com.eshop.app.common.models.kafka.Inventory();
+        inventory.setId(this.id);
+        inventory.setInStock(this.inStock);
+        inventory.setQuantity(this.quantity);
+        inventory.setReservedQuantity(this.reservedQuantity);
+        inventory.setMinStockQuantity(this.minStockQuantity);
+        inventory.setProductId(this.productId);
+        return inventory;
+    }
 }
 

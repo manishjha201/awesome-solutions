@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@RequestMapping("/amin/api/v1/catalog")
 public class CategoryController {
 
     @Autowired

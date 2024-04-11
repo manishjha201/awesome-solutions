@@ -3,6 +3,7 @@ package com.eshop.app.controllers;
 import com.eshop.app.common.constants.EShopResultCode;
 import com.eshop.app.models.req.GetProductsRequestDto;
 import com.eshop.app.models.req.ProductReqDTO;
+import com.eshop.app.models.req.ProductUpdateReqDTO;
 import com.eshop.app.models.resp.GenericResponseBody;
 import com.eshop.app.models.resp.ProductDetailResponse;
 import com.eshop.app.models.resp.ProductsResponse;
@@ -66,10 +67,10 @@ public class ProductController {
     }
 
     @PutMapping("/{productId}")
-    public ResponseEntity<GenericResponseBody<ProductDetailResponse>> updateProduct(@PathVariable Long productId, @Valid @RequestBody ProductReqDTO createProductReq, @RequestHeader(value = "loginId", required = false) String loginId) {
-        validationService.validate(createProductReq);
-        log.info("Request received for API={} with values : {}", "UPDATE_PRODUCT_API", createProductReq);
-        ProductDetailResponse resp = productService.updateProduct(productId, createProductReq, loginId);
+    public ResponseEntity<GenericResponseBody<ProductDetailResponse>> updateProduct(@PathVariable Long productId, @Valid @RequestBody ProductUpdateReqDTO updateProductReq, @RequestHeader(value = "loginId", required = false) String loginId) {
+        validationService.validate(updateProductReq);
+        log.info("Request received for API={} with values : {}", "UPDATE_PRODUCT_API", updateProductReq);
+        ProductDetailResponse resp = productService.updateProduct(productId, updateProductReq, loginId);
         GenericResponseBody<ProductDetailResponse> body = new GenericResponseBody<>();
         body.setResponse(resp);
         body.setResultInfo(ResultInfo.builder().resultCode(EShopResultCode.SUCCESS).build());

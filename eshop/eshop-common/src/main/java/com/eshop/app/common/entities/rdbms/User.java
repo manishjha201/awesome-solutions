@@ -43,4 +43,19 @@ public class User {
     private boolean isActive;
 
     private int version;
+
+    public com.eshop.app.common.models.kafka.User build() {
+        com.eshop.app.common.models.kafka.User user = new com.eshop.app.common.models.kafka.User();
+        user.setId(this.id);
+        user.setUsername(this.username);
+        user.setPassword(this.password);
+        user.setName(this.name);
+        user.setEmail(this.email);
+        user.setLoginId(this.loginId);
+        user.setRole(this.role.name());
+        user.setTenantId(this.tenantId);
+        user.setActive(this.isActive);
+        user.setVersion(this.version);
+        return user;
+    }
 }

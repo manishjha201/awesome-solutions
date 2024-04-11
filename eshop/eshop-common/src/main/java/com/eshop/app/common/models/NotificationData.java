@@ -4,12 +4,14 @@ import com.eshop.app.common.constants.NotificationEventType;
 import com.eshop.app.common.entities.rdbms.User;
 import lombok.Builder;
 import lombok.Data;
+import lombok.ToString;
 
 import java.io.Serializable;
 import java.util.TimeZone;
 
 @Builder
 @Data
+@ToString
 public class NotificationData implements Serializable {
     private static final long serialVersionUID = -2515195369774105913L;
 
