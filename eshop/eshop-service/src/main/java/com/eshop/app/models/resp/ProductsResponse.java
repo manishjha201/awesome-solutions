@@ -1,8 +1,5 @@
 package com.eshop.app.models.resp;
 
-import com.eshop.app.common.constants.HttpResponseStatus;
-import com.eshop.app.common.entities.rdbms.Product;
-import com.eshop.app.models.req.ProductReqDTO;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import lombok.Builder;

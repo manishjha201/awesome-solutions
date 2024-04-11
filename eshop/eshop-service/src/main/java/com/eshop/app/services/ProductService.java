@@ -1,8 +1,22 @@
 package com.eshop.app.services;
 
-import com.eshop.app.common.constants.Role;
+import com.eshop.app.common.constants.EShopResultCode;
+import com.eshop.app.common.entities.rdbms.Tenant;
+import com.eshop.app.common.models.ProductChangeMetaData;
+import com.eshop.app.common.repositories.rdbms.slave.TenantRepository;
+import com.eshop.app.exception.ValidationException;
+import com.eshop.app.intercepters.UserContext;
+import com.eshop.app.models.req.ProductUpdateReqDTO;
+import com.eshop.app.producer.IEshopChangeEventPublisherService;
+import com.eshop.app.utils.Utility;
+import com.google.gson.Gson;
+import com.eshop.app.common.constants.ChangeType;
+import com.eshop.app.common.constants.FormType;
 import com.eshop.app.common.constants.Status;
 import com.eshop.app.common.entities.rdbms.Product;
+import com.eshop.app.common.models.EShoppingChangeEvent;
+import com.eshop.app.common.models.ProductChangeEvent;
+import com.eshop.app.common.models.kafka.EShoppingChangeEventKafka;
 import com.eshop.app.exception.ResourceNotFoundException;
 import com.eshop.app.mapper.req.RequestMapper;
 import com.eshop.app.mapper.resp.ResponseMapper;
@@ -10,7 +24,6 @@ import com.eshop.app.models.req.GetProductsRequestDto;
 import com.eshop.app.models.req.ProductReqDTO;
 import com.eshop.app.models.resp.ProductDetailResponse;
 import com.eshop.app.models.resp.ProductsResponse;
-import com.github.fge.jsonpatch.JsonPatch;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,11 +36,19 @@ import javax.persistence.criteria.Root;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.Executor;
+
 import com.eshop.app.common.entities.rdbms.User;
 
 @Service
 @Slf4j
 public class ProductService implements IProductService {
+
+    private static final Gson gson = new Gson();
+
+    @Autowired
+    private TenantRepository tenantRepository;
 
     @Autowired
     @PersistenceContext(unitName = "master")
@@ -37,17 +58,40 @@ public class ProductService implements IProductService {
     @PersistenceContext(unitName = "slave")
     private EntityManager slaveEntityManager;
 
+    @Autowired
+    private Executor executor;
+
+    @Autowired
+    private IEshopChangeEventPublisherService eshopChangeEventPublisherService;
+
     @Transactional(value = "eShopMasterTransactionManager", readOnly = false)
     @Override
     public ProductDetailResponse createProduct(ProductReqDTO createProductReq, String loginId) {
-        //TODO : Use Cache to fetch User Detail.....
-        User test = User.builder().id(1L).username("TEST").password("fdasfdsf").name("test").email("email@test").loginId(loginId).role(Role.ADMIN).tenantId(1L).isActive(true).version(1).build();
-        Product product = RequestMapper.buildProductFromProductReqDTO(createProductReq, test);
+        User user = UserContext.getUserDetail();
+        Product product = RequestMapper.buildProductFromProductReqDTO(createProductReq, user);
         masterEntityManager.persist(product);
         masterEntityManager.flush();
         ProductDetailResponse resp = ResponseMapper.mapProductDetailResponse(product);
-        //TODO : SEND MESSAGE TO KAFKA
+        publishChangeEvent(null, product, user, resp.getResponse().getTenantId(), ChangeType.CREATE, FormType.ESHOPPING);
         return resp;
+    }
+
+    public void publishChangeEvent(Product from, Product to, User user, Long tenantId, ChangeType changeType, FormType formType) {
+       executor.execute( () -> publish(from, to, user, tenantId, changeType, formType));
+    }
+
+    public void publish(final Product from, final Product to, final User updatedBy, Long tenantId, ChangeType changeType, FormType formType) {
+        //TODO : Use Caching
+        Tenant tenant = getTenantById(tenantId);
+        //TODO : GET TimeZone and TimeAt from controller
+        String key = to.getId().toString();
+        ProductChangeMetaData metadata = ProductChangeMetaData.builder().changeType(changeType.name()).formType(formType.name())
+                .tenant(tenant.build()).user(updatedBy.build()).build();
+        EShoppingChangeEvent changeEvent = EShoppingChangeEvent.builder()
+                .productChangeEvent(ProductChangeEvent.builder().previousValue(Utility.parseToKafkaProduct(from))
+                        .currentValue(Utility.parseToKafkaProduct(to)).build()).productChangeMetaData(metadata).build();;
+        EShoppingChangeEventKafka event = EShoppingChangeEventKafka.builder().dataschema(EShoppingChangeEvent.class.getName()).data(gson.toJson(changeEvent)).build();
+        eshopChangeEventPublisherService.publish(key, event);
     }
 
     @Transactional(value = "eShopSlaveTransactionManager", readOnly = true)
@@ -67,29 +111,43 @@ public class ProductService implements IProductService {
 
     @Transactional(value = "eShopMasterTransactionManager", readOnly = false)
     @Override
-    public ProductDetailResponse updateProduct(Long productId, ProductReqDTO createProductReq, String loginId) {
-        //TODO : Use Cache to fetch User Detail.....
-        User test = User.builder().id(1L).username("TEST").password("fdasfdsf").name("test").email("email@test").loginId(loginId).role(Role.ADMIN).tenantId(1L).isActive(true).version(1).build();
-        Product product = RequestMapper.buildProductFromProductReqDTO(createProductReq, test);
+    public ProductDetailResponse updateProduct(Long productId, ProductUpdateReqDTO updateReq, String loginId) {
+        User user = UserContext.getUserDetail();
+        //TODO : Use Cache to fetch Cached Product Detail.....
+        Product from = masterEntityManager.find(Product.class, productId);
+        Product product = RequestMapper.updateProductFromProductReqDTO(updateReq, user);
+        if (from.getVersion() != product.getVersion()) throw new ValidationException(EShopResultCode.INVALID_INPUT, "invalid version number");
         product.setId(productId);
+        product.setVersion(from.getVersion() + 1);
         Product updatedProduct = masterEntityManager.merge(product);
         masterEntityManager.flush();
         ProductDetailResponse resp = ResponseMapper.mapProductDetailResponse(updatedProduct);
-        //TODO : SEND MESSAGE TO KAFKA
+        publishChangeEvent(from, updatedProduct, user, updatedProduct.getTenantId(), ChangeType.UPDATE, FormType.ESHOPPING);
         return resp;
     }
 
     @Transactional(value = "eShopMasterTransactionManager", readOnly = false)
     @Override
     public void deleteProduct(List<Long> productIds, String loginId) throws ResourceNotFoundException {
+        User user = UserContext.getUserDetail();
         for (Long productId : productIds) {
             Product product = masterEntityManager.find(Product.class, productId);
             if (product != null) {
                 masterEntityManager.remove(product);
+                publishChangeEvent(product, null, user, product.getTenantId(), ChangeType.DELETE, FormType.ESHOPPING);
             } else {
                 log.info("Product with ID {} not found.", productId );
             }
         }
+    }
+
+    @Transactional(value = "eShopSlaveTransactionManager", readOnly = true)
+    public Tenant getTenantById(Long tenantId) {
+        Optional<Tenant> tenantOptional = tenantRepository.findById(tenantId);
+        if (tenantOptional.isPresent()) {
+            return tenantOptional.get();
+        }
+        return Tenant.builder().id(0L).name("NA").status(Status.ACTIVE).version(1).build();
     }
 
     @Transactional("eShopMasterTransactionManager")

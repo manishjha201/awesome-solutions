@@ -3,11 +3,10 @@ package com.eshop.app.utils;
 import com.eshop.app.common.constants.Currency;
 import com.eshop.app.common.constants.Status;
 import com.eshop.app.common.entities.nosql.es.Product;
+import com.eshop.app.exception.ValidationException;
 import com.eshop.app.models.req.CatalogSearchQueryDto;
 import com.eshop.app.models.req.ProductReqDTO;
 import com.eshop.app.models.resp.SearchCatalogResponse;
-import com.fasterxml.jackson.core.exc.StreamWriteException;
-import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import lombok.AccessLevel;
@@ -92,4 +91,12 @@ public final class Utility {
         }
     }
 
+    public static boolean validateToken(String token) {
+        if (StringUtils.isEmpty(token)) throw new ValidationException("Invalid token, login again");
+        return true;
+    }
+
+    public static com.eshop.app.common.models.kafka.Product parseToKafkaProduct(com.eshop.app.common.entities.rdbms.Product input) {
+        return input == null ? null : input.build();
+    }
 }

@@ -73,4 +73,23 @@ public class Product {
     private Boolean isUpdatedToES;
 
     private int version;
+
+    public com.eshop.app.common.models.kafka.Product build() {
+        com.eshop.app.common.models.kafka.Product product = new com.eshop.app.common.models.kafka.Product();
+        product.setId(this.id);
+        product.setRefID(this.refID);
+        product.setTitle(this.title);
+        product.setName(this.name);
+        product.setDescription(this.description);
+        product.setPrice(this.price.doubleValue());
+        product.setCurrency(this.currency.getCode());
+        product.setInventory(this.inventory.build());
+        product.setStatus(this.status);
+        product.setCategoryId(this.categoryId);
+        product.setImageUrl(this.imageUrl);
+        product.setTenantId(this.tenantId);
+        product.setIsUpdatedToES(this.isUpdatedToES);
+        product.setVersion(this.version);
+        return product;
+    }
 }

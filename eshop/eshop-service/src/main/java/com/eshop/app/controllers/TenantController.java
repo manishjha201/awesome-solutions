@@ -12,6 +12,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @RestController
+@RequestMapping("/amin/api/v1/catalog")
 public class TenantController {
 
     @Autowired
