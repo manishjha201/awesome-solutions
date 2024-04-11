@@ -1,4 +1,4 @@
-package com.eshop.app.services.catalog;
+package com.eshop.app.services;
 
 import com.eshop.app.common.exceptions.BusinessException;
 import com.eshop.app.exception.ResourceNotFoundException;

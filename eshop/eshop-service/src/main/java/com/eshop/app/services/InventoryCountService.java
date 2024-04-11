@@ -1,4 +1,4 @@
-package com.eshop.app.services.catalog;
+package com.eshop.app.services;
 
 import org.springframework.stereotype.Service;
 

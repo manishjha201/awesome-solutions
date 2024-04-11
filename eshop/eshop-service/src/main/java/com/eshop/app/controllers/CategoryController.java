@@ -1,7 +1,7 @@
 package com.eshop.app.controllers;
 
-import com.eshop.app.common.entities.nosql.cassandra.Category;
-import com.eshop.app.services.catalog.ICategoryService;
+import com.eshop.app.common.entities.rdbms.Category;
+import com.eshop.app.services.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @RestController
 public class CategoryController {
@@ -23,7 +22,7 @@ public class CategoryController {
     }
 
     @GetMapping("/categories/{categoryId}")
-    public ResponseEntity<Category> getCategoryById(@PathVariable UUID categoryId) {
+    public ResponseEntity<Category> getCategoryById(@PathVariable Long categoryId) {
         Optional<Category> category = categoryService.getCategoryById(categoryId);
         return category.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
@@ -35,13 +34,13 @@ public class CategoryController {
     }
 
     @PutMapping("/categories/{categoryId}")
-    public ResponseEntity<Category> updateCategory(@PathVariable UUID categoryId, @RequestBody Category updatedCategory) {
+    public ResponseEntity<Category> updateCategory(@PathVariable Long categoryId, @RequestBody Category updatedCategory) {
         Category category = categoryService.updateCategory(categoryId, updatedCategory);
         return ResponseEntity.ok(category);
     }
 
     @DeleteMapping("/categories/{categoryId}")
-    public ResponseEntity<Void> deleteCategory(@PathVariable UUID categoryId) {
+    public ResponseEntity<Void> deleteCategory(@PathVariable Long categoryId) {
         categoryService.deleteCategory(categoryId);
         return ResponseEntity.noContent().build();
     }

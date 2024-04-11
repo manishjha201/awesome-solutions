@@ -86,14 +86,6 @@
         <artifactId>spring-boot-starter-web</artifactId>
         <version>${spring.boot.version}</version>
       </dependency>
-
-      <!-- Spring Boot Starter Data Cassandra for Cassandra support -->
-      <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-data-cassandra</artifactId>
-        <version>${spring.boot.version}</version>
-      </dependency>
-
       <!-- mysql-rdbms-starts -->
       <dependency>
         <groupId>org.springframework.boot</groupId>

@@ -1,7 +1,7 @@
 package com.eshop.app.controllers;
 
-import com.eshop.app.common.entities.nosql.cassandra.Tenant;
-import com.eshop.app.services.catalog.ITenantService;
+import com.eshop.app.common.entities.rdbms.Tenant;
+import com.eshop.app.services.ITenantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

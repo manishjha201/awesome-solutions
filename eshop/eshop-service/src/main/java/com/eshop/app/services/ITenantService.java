@@ -1,6 +1,7 @@
-package com.eshop.app.services.catalog;
+package com.eshop.app.services;
 
-import com.eshop.app.common.entities.nosql.cassandra.Tenant;
+
+import com.eshop.app.common.entities.rdbms.Tenant;
 
 import java.util.List;
 import java.util.Optional;

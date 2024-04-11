@@ -1,4 +1,4 @@
-package com.eshop.app.services.catalog;
+package com.eshop.app.services;
 
 import com.eshop.app.common.repositories.nosql.es.ProductRepository;
 import com.eshop.app.models.req.CatalogSearchQueryDto;
@@ -14,7 +14,6 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
-import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.Query;
 import org.springframework.stereotype.Service;

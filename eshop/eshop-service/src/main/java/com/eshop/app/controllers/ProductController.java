@@ -1,7 +1,7 @@
 package com.eshop.app.controllers;
 
-import com.eshop.app.common.entities.nosql.cassandra.Product;
-import com.eshop.app.services.catalog.ProductService;
+import com.eshop.app.common.entities.rdbms.Product;
+import com.eshop.app.services.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,10 +13,10 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/products")
-public class EShopProductController {
+public class ProductController {
 
     @Autowired
-    private ProductService productService;
+    private IProductService productService;
 
     @PostMapping
     public ResponseEntity<Product> createProduct(@RequestBody Product product) {
@@ -44,8 +44,9 @@ public class EShopProductController {
 
     @PatchMapping("/{productId}")
     public ResponseEntity<Product> patchProduct(@PathVariable UUID productId, @RequestBody JsonPatch patch) {
-        Product patchedProduct = productService.patchProduct(productId, patch);
-        return ResponseEntity.ok(patchedProduct);
+        //Product patchedProduct = productService.patchProduct(productId, patch);
+        //return ResponseEntity.ok(patchedProduct);
+        return null;
     }
 
     @DeleteMapping("/{productId}")

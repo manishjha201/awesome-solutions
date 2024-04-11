@@ -3,6 +3,7 @@ package com.eshop.app;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -14,6 +15,7 @@ import org.springframework.web.client.RestTemplate;
 @Slf4j
 @SpringBootApplication
 @EnableScheduling
+@EntityScan("com.eshop.app.common.entities.rdbms")
 @ComponentScan(basePackages = {"com.eshop.app", "com.eshop.app.common"})
 public class EShopApplication {
 

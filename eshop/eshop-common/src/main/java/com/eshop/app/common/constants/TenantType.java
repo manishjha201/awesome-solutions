@@ -3,11 +3,11 @@ package com.eshop.app.common.constants;
 import lombok.Getter;
 
 @Getter
-public enum CatalogSearchKey {
-    TITLE("title"), NAME("name"), PRODUCT_ID("product-id") , ANY("any");
+public enum TenantType {
+    INTERNAL("INTERNAL"), EXTERNAL("EXTERNAL");
 
     private final String label;
-    CatalogSearchKey(String label) {
+    TenantType(String label) {
         this.label = label;
     }
 
