@@ -8,6 +8,7 @@ import com.eshop.app.models.resp.ResultInfo;
 import com.eshop.app.models.resp.SearchCatalogResponse;
 import com.eshop.app.services.IInventoryCountService;
 import com.eshop.app.services.ICatalogSearchService;
+import com.eshop.app.services.IValidationService;
 import com.eshop.app.utils.Utility;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import java.util.List;
 
 /**
  * Provides capability to search Catalog using configurable filters.
+ * Validates input against ingestion attacks.
  * return pageable products.
  */
 @Slf4j
@@ -28,16 +30,16 @@ import java.util.List;
 public class CatalogSearchController {
 
     private final ICatalogSearchService catalogSearchService;
-    private final IInventoryCountService inventoryCountService;
+    private final IValidationService validationService;
 
     @Autowired
-    public CatalogSearchController(ICatalogSearchService searchCatalogueService, IInventoryCountService inventoryCountService) {
+    public CatalogSearchController(ICatalogSearchService searchCatalogueService, IValidationService validationService) {
         this.catalogSearchService = searchCatalogueService;
-        this.inventoryCountService = inventoryCountService;
+        this.validationService = validationService;
     }
 
     @GetMapping("/search")
-    public ResponseEntity<SearchCatalogResponse> getCatalogInfo(
+    public ResponseEntity<GenericResponseBody<SearchCatalogResponse>> getCatalogInfo(
             @RequestParam(name = "query_search_key", required = false) @Valid final String querySearchKey,
             @RequestParam(name = "query_search_value", required = false) @Valid final String querySearchValue,
             @RequestParam(name = "status", required = false, defaultValue = "ACTIVE") @Valid List<Status> statuses,
@@ -53,13 +55,13 @@ public class CatalogSearchController {
                 .pageNumber(pageNumber)
                 .pageSize(pageSize)
                 .build();
-        //TODO : CALL VALIDATION SERVICE
-        log.info("Request received for API={} with values : {}", dto);
+        validationService.validate(dto);
+        log.info("Request received for API={} with values : {}", "CATALOG_SEARCH_API", dto);
         GenericResponseBody<SearchCatalogResponse> body = new GenericResponseBody<>();
         SearchCatalogResponse resp = catalogSearchService.getCatalogDetails(dto, loginId);
         body.setResponse(resp);
         body.setResultInfo(ResultInfo.builder().resultCode(EShopResultCode.SUCCESS).build());
-        return new ResponseEntity(body, HttpStatus.OK);
+        return new ResponseEntity<>(body, HttpStatus.OK);
     }
 
 }

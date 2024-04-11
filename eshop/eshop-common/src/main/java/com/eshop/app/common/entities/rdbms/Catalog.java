@@ -24,6 +24,9 @@ public class Catalog {
     @Column(name = "tenant_id")
     private Long tenantId;
 
+    @Column(name = "catalog_id")
+    private Long catalogId;
+
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 

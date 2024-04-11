@@ -10,11 +10,11 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.data.domain.Page;
 
 
-
 @Data
 @Builder
 @JsonDeserialize (builder = SearchCatalogResponse.SearchCatalogResponseBuilder.class)
-public class SearchCatalogResponse {
+public class SearchCatalogResponse extends HttpResponse {
+    private static final long serialVersionUID = -4966133033063306971L;
     private Page<Product> response;
     private CatalogSearchQueryDto request;
     @JsonPOJOBuilder(withPrefix = "")
