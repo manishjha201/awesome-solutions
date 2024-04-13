@@ -1,22 +1,20 @@
 package com.eshop.app.models.req;
 
-import com.eshop.app.utils.ValidateInputRequestHelper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import lombok.Builder;
 import lombok.Data;
-
-import java.util.List;
+import org.apache.commons.lang3.ObjectUtils;
 
 @Data
 @Builder
-@JsonDeserialize(builder = GetProductsRequestDto.GetProductsRequestDtoBuilder.class)
-public class GetProductsRequestDto extends HttpRequest {
-    List<Long> productIds;
+@JsonDeserialize(builder = ProductRequest.GetProductsRequestDtoBuilder.class)
+public class ProductRequest extends HttpRequest {
+    Long productId;
 
     @Override
     public boolean validate() {
-        return !productIds.isEmpty() && ValidateInputRequestHelper.validateReqSize(productIds.size());
+        return ObjectUtils.isNotEmpty(productId);
     }
 
     @JsonPOJOBuilder(withPrefix = "")

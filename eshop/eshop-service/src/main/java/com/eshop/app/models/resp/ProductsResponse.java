@@ -12,7 +12,7 @@ import java.util.List;
 @JsonDeserialize(builder = ProductsResponse.ProductsDetailResponseBuilder.class)
 public class ProductsResponse extends HttpResponse {
     private static final long serialVersionUID = -4966133033063306971L;
-    private List<ProductResp> response;
+    private ProductResp response;
     @JsonPOJOBuilder(withPrefix = "")
     public static class ProductsDetailResponseBuilder {}
 }

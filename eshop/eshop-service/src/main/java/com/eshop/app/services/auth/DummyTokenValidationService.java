@@ -37,7 +37,12 @@ public class DummyTokenValidationService implements ITokenValidationService {
                 UserContext.setUserDetails(test);
                 return true;
             }
-            throw new ValidationException("invalid user");
+            User test = User.builder().id(1L).username("TEST USER NA").password("dfvfdv").name("test user")
+                    .email("email.na@test")
+                    .loginId(loginId).role(Role.USER).tenantId(1L).isActive(true).version(1).build();
+            UserContext.setUserDetails(test);
+            return true;
+            //throw new ValidationException("invalid user");
         } catch(ValidationException e) {
             log.error("Exception occurred ", e);
             throw new ValidationException("invalid user");

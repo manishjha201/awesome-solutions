@@ -1,10 +1,7 @@
 package com.eshop.app.config;
 
-import com.eshop.app.common.models.kafka.EShoppingChangeEventKafka;
 import com.eshop.app.kafka.ObjectSerializer;
 import org.apache.kafka.clients.producer.ProducerConfig;
-import org.apache.kafka.common.serialization.StringDeserializer;
-import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,16 +19,7 @@ public class KafkaConfig {
     @Value( value = "${eshop.kafka.bootstrap.server.address}")
     private String bootStrapAddress;
 
-    @Value( value = "${eshop.kafka.group.id}")
-    private String groupId;
-
-    @Value( value = "${eshop.kafka.auto-offset-reset}")
-    private String autoOffSetReset;
-
-    @Value( value = "${eshop.kafka.consumer.concurrency}")
-    private Integer consumerConcurrency;
-
-    @Value( value = "${eshop.kafka.max.poll.records}")
+    @Value( value = "${eshop.kafka.producer.max.poll.records}")
     private Integer maxPollRecords;
 
     @Bean
@@ -40,7 +28,6 @@ public class KafkaConfig {
         props.put("bootstrap.servers", bootStrapAddress);
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer");
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, ObjectSerializer.class.getName());
-        props.put("group.id", groupId);
         props.put("max.poll.records", maxPollRecords);
         return props;
     }

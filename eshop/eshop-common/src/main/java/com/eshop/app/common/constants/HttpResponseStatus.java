@@ -2,8 +2,11 @@ package com.eshop.app.common.constants;
 
 import lombok.Getter;
 
+import java.io.Serializable;
+
 @Getter
-public enum HttpResponseStatus {
+public enum HttpResponseStatus implements Serializable {
+
     FAIL("FAIL"), ACCEPTED("ACCEPTED"), UPDATED("UPDATED"), DELETED("DELETED");
     private final String value;
 

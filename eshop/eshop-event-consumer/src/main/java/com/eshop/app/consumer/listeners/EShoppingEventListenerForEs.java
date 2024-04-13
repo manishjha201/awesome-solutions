@@ -9,6 +9,7 @@ import com.eshop.app.consumer.parser.IEshopEventInfoParser;
 import com.eshop.app.consumer.services.IEsDataIngestionService;
 import com.eshop.app.consumer.services.INotificationService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -33,10 +34,11 @@ public final class EShoppingEventListenerForEs {
     }
 
     @KafkaListener(topics = "${eshop.kafka.topic.name}", containerFactory = "kafkaListenerContainerFactory", autoStartup = "true")
-    public void kafkaEventListener(String msg) {
+    public void kafkaEventListener(ConsumerRecord<String, Object> record) {
         long startTime = System.currentTimeMillis();
         try {
-            log.debug("Input... [String]", msg);
+            Object msg = record.value();
+            log.debug("Input... [String]", String.valueOf(msg));
             final ProcessedFeedOutput output = EShoppingEventHandlerFactory.get(
                     ProductChangeEventController.builder()
                             .message(msg)

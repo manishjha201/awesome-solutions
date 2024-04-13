@@ -1,20 +1,18 @@
 package com.eshop.app.common.models.kafka;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.*;
-
 import java.io.Serializable;
 
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonDeserialize(builder = Inventory.InventoryBuilder.class)
 @JsonSerialize
 @ToString
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Inventory implements Serializable {
+    private static final long serialVersionUID = -8309789912564690435L;
 
     private Long id;
     private Boolean inStock;
@@ -22,7 +20,4 @@ public class Inventory implements Serializable {
     private Integer reservedQuantity;
     private Integer minStockQuantity;
     private Long productId;
-
-    @JsonPOJOBuilder(withPrefix = "")
-    public static class InventoryBuilder {}
 }

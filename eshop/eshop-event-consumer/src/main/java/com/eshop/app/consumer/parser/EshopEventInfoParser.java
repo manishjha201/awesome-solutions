@@ -12,10 +12,10 @@ import org.springframework.stereotype.Component;
 public class EshopEventInfoParser implements  IEshopEventInfoParser {
     private static final Gson gson = new Gson();
     @Override
-    public EShoppingChangeEvent parse(String json) {
+    public EShoppingChangeEvent parse(Object json) {
         try {
+            EShoppingChangeEventKafka kafkaEvent = (EShoppingChangeEventKafka) json;
             log.debug("Parsing kafka payload {} ", json);
-            EShoppingChangeEventKafka kafkaEvent = gson.fromJson(json, EShoppingChangeEventKafka.class);
             log.info("Parsing event info {}", kafkaEvent);
             return ObjectUtils.isNotEmpty(kafkaEvent) ? gson.fromJson(kafkaEvent.getData(), EShoppingChangeEvent.class) : null;
         } catch(Exception e) {

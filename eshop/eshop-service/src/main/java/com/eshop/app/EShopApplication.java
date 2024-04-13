@@ -24,7 +24,7 @@ public class EShopApplication {
         initializeApp(ctx);
         AbstractApplicationContext appCtx = ((AbstractApplicationContext) ctx);
         appCtx.registerShutdownHook();
-        log.info("Server started successfully as per logs");
+        log.info("Server started successfully...");
     }
 
     private static void initializeApp(ApplicationContext ctx) {
