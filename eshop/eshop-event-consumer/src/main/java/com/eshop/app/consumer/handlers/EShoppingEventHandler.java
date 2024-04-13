@@ -1,7 +1,6 @@
 package com.eshop.app.consumer.handlers;
 
 import com.eshop.app.common.models.EShoppingChangeEvent;
-import com.eshop.app.consumer.factories.ChangeEventProcessorFactory;
 import com.eshop.app.consumer.task.manager.CircuitBreakerBasedThreadPoolExecutor;
 import com.eshop.app.consumer.task.manager.EShoppingLowVolumeProductTask;
 import com.eshop.app.consumer.task.manager.RecordManager;
@@ -16,7 +15,7 @@ import com.sun.xml.bind.v2.runtime.RuntimeUtil;
 import lombok.Builder;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-
+import com.eshop.app.consumer.factories.ChangeEventProcessorFactory;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 
@@ -51,6 +50,10 @@ public final class EShoppingEventHandler implements IEShoppingEventHandler {
             EShoppingChangeEvent changeEvent = eshopEventInfoParser.parse(message);
 
             //TODO : INGEST IN ES
+
+
+
+
             Boolean isInLowInventory = new ChangeEventProcessorFactory().get(changeEvent.getProductChangeMetaData().getChangeType()).process(changeEvent);
             if (isInLowInventory) {
                 EShoppingLowVolumeProductTask task = EShoppingLowVolumeProductTask.builder().event(changeEvent).notificationService(this.notificationService).build();

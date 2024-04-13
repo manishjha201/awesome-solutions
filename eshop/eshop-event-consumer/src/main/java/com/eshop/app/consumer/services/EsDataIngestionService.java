@@ -4,7 +4,7 @@ import com.eshop.app.common.entities.nosql.es.Product;
 import com.eshop.app.common.entities.rdbms.Category;
 import com.eshop.app.common.models.EShoppingChangeEvent;
 import com.eshop.app.common.repositories.nosql.es.ProductRepository;
-import com.eshop.app.common.repositories.nosql.es.rdbms.master.CategoryRepository;
+import com.eshop.app.common.repositories.rdbms.master.CategoryRepository;
 import com.eshop.app.consumer.models.ProductUpdateReqDTO;
 import com.eshop.app.consumer.utils.Utility;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +19,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.OutputStream;
-
 
 @Slf4j
 @Service
@@ -61,19 +60,25 @@ public class EsDataIngestionService implements IEsDataIngestionService {
 
     @Override
     public boolean update(EShoppingChangeEvent changeEvent) {
-        return false;
+        Optional<Category> category = categoryRepository.findById(changeEvent.getProductChangeEvent().getCurrentValue().getCategoryId());
+        Product toSave = Utility.getProductForUpdate(changeEvent, category.get(), changeEvent.getProductChangeEvent().getCurrentValue().getRefID());
+        Product result = saveProduct(toSave);
+        String refId = result.getId();
+        ProductUpdateReqDTO dto = Utility.buildProductUpdateReqDTO(refId, changeEvent);
+        saveProductAtDb(dto, changeEvent.getProductChangeEvent().getCurrentValue().getId().toString());
+        return true;
     }
 
     @Override
     public boolean delete(EShoppingChangeEvent changeEvent) {
-        return false;
+        return deleteProductById(changeEvent.getProductChangeEvent().getCurrentValue().getRefID());
     }
 
     public void saveProductAtDb(ProductUpdateReqDTO productReq, String productId) {
-        String endpoint = "localhost:8080/internal/data/v1/products" + productId;
+        String endpoint = "localhost:8080/internal/data/v1/products" + productId; //TODO : make it configurable
         try {
             String response = callPutMethod(endpoint, productReq);
-            System.out.println("Response from API: " + response);
+            log.info("Response from API: {} ", response);
         } catch (IOException e) {
             log.info(" Exception occured : {}", e);
         }
@@ -108,6 +113,5 @@ public class EsDataIngestionService implements IEsDataIngestionService {
             throw new IOException("API call request failed with HTTP error code: " + responseCode);
         }
     }
-
 
 }

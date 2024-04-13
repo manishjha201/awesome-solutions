@@ -42,6 +42,7 @@ public class ProductUpdateReqDTO implements Serializable {
     @NotNull(message = "version number is mandatory. It should not be null")
     private Integer versionNo;
     private String refId;
+    private boolean isUpdatedToES;
 
     @JsonPOJOBuilder(withPrefix = "")
     public static class ProductUpdateReqDTOBuilder {

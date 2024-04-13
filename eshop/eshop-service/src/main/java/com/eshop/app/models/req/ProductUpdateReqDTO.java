@@ -3,6 +3,7 @@ package com.eshop.app.models.req;
 import com.eshop.app.common.constants.Currency;
 import com.eshop.app.common.constants.Status;
 import com.eshop.app.utils.ValidateInputRequestHelper;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import lombok.Builder;
@@ -15,6 +16,7 @@ import java.math.BigDecimal;
 
 @Data
 @Builder
+@JsonIgnoreProperties(ignoreUnknown = true)
 @JsonDeserialize(builder = ProductUpdateReqDTO.ProductUpdateReqDTOBuilder.class)
 public class ProductUpdateReqDTO  extends HttpRequest {
     private static final long serialVersionUID = -9170093570486603251L;
@@ -41,6 +43,8 @@ public class ProductUpdateReqDTO  extends HttpRequest {
     private Long tenantId;
     @NotNull(message = "version number is mandatory. It should not be null")
     private Integer versionNo;
+    private String refId;
+    private boolean isUpdatedToES;
 
     @Override
     public boolean validate() {
