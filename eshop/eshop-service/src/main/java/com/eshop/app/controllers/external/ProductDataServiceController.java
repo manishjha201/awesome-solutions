@@ -38,7 +38,7 @@ public class ProductDataServiceController {
      * @return
      */
     //TODO : add swagger
-    @GetMapping("user/api/v1/products/{productId}")
+    @GetMapping("/user/api/v1/products/{productId}")
     public ResponseEntity<GenericResponseBody<ProductResp>> getProductInfo(@PathVariable Long productId, @RequestHeader(value = "loginId", required = false) String loginId, @RequestHeader(value = "estoken", required = true) String estoken) throws JsonProcessingException {
         validationService.validateToken(estoken);
         ProductResp resp = productDataService.getProduct(productId, loginId, estoken);
@@ -49,7 +49,7 @@ public class ProductDataServiceController {
     }
 
     //TODO : add swagger
-    @PostMapping("admin/api/v1/products")
+    @PostMapping("/admin/api/v1/products")
     public ResponseEntity<GenericResponseBody<ProductResp>> createProduct(
             @RequestHeader(value = "loginId", required = false) String loginId,
             @RequestHeader(value = "estoken", required = false) String esToken,
@@ -68,7 +68,7 @@ public class ProductDataServiceController {
      * Also use this fpr product delete make status as  DELETED
      */
     //TODO : add swagger
-    @PutMapping("admin/api/v1/products/{productId}")
+    @PutMapping("/admin/api/v1/products/{productId}")
     public ResponseEntity<GenericResponseBody<ProductResp>> updateProduct(
             @PathVariable Long productId,
             @RequestHeader(value = "loginId", required = false) String loginId,
