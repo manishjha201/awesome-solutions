@@ -1,4 +1,4 @@
-package com.eshop.app.controllers;
+package com.eshop.app.controllers.external;
 
 import com.eshop.app.common.constants.EShopResultCode;
 import com.eshop.app.common.constants.Status;

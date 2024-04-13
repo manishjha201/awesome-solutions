@@ -1,28 +1,36 @@
 package com.eshop.app.consumer.handlers;
 
 import com.eshop.app.common.models.EShoppingChangeEvent;
+import com.eshop.app.consumer.task.manager.CircuitBreakerBasedThreadPoolExecutor;
+import com.eshop.app.consumer.task.manager.EShoppingLowVolumeProductTask;
+import com.eshop.app.consumer.task.manager.RecordManager;
+import com.eshop.app.consumer.task.manager.ThreadExecutorConfig;
 import com.eshop.app.consumer.exceptions.BusinessException;
 import com.eshop.app.consumer.filters.IEsShoppingFeedFilter;
 import com.eshop.app.consumer.models.ProcessedFeedOutput;
 import com.eshop.app.consumer.parser.IEshopEventInfoParser;
 import com.eshop.app.consumer.services.IEsDataIngestionService;
 import com.eshop.app.consumer.services.INotificationService;
+import com.sun.xml.bind.v2.runtime.RuntimeUtil;
 import lombok.Builder;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
 
 @Slf4j
 @Builder
 @Data
 public final class EShoppingEventHandler implements IEShoppingEventHandler {
 
-    private final String message;
+    private final Object message;
     private final IEshopEventInfoParser eshopEventInfoParser;
     private final IEsShoppingFeedFilter esShoppingFeedFilter;
     private final IEsDataIngestionService esDataIngestionService;
     private final INotificationService notificationService;
 
-    public EShoppingEventHandler(final String message, final IEshopEventInfoParser eshopEventInfoParser,final IEsShoppingFeedFilter esShoppingFeedFilter, final IEsDataIngestionService esDataIngestionService, final INotificationService notificationService) {
+    public EShoppingEventHandler(final Object message, final IEshopEventInfoParser eshopEventInfoParser,final IEsShoppingFeedFilter esShoppingFeedFilter, final IEsDataIngestionService esDataIngestionService, final INotificationService notificationService) {
         this.message = message;
         this.eshopEventInfoParser = eshopEventInfoParser;
         this.esShoppingFeedFilter = esShoppingFeedFilter;
@@ -40,11 +48,17 @@ public final class EShoppingEventHandler implements IEShoppingEventHandler {
                 .build();
         try {
             EShoppingChangeEvent changeEvent = eshopEventInfoParser.parse(message);
-           if (true) {
-               //TODO : pending
-               Thread.sleep(1000);
-           }
-        } catch(InterruptedException interruptedException) {
+
+            //TODO : INGEST IN ES AND THEN NOTIFY
+            EShoppingLowVolumeProductTask task = EShoppingLowVolumeProductTask.builder().event(changeEvent).notificationService(this.notificationService).build();
+            CompletableFuture<ProcessedFeedOutput> future = RecordManager.submitPayloadRequest(task);
+            future.thenAccept(result -> {
+                log.info("Submitted  task resp : {}" + result);
+            }).exceptionally(exception -> {
+                log.error("Exception occurred: {} ", exception);
+                return null;
+            });
+        } catch(BusinessException interruptedException) {
             log.error("Error processing the task {}", message, interruptedException);
             output.setIsSuccess(Boolean.FALSE);
             output.setResponseMsg(output.getResponseMsg().concat(interruptedException.getMessage()));

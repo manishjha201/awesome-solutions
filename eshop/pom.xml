@@ -8,7 +8,7 @@
   <modules>
     <module>eshop-common</module>
     <module>eshop-service</module>
-   <!-- <module>eshop-event-consumer</module> -->
+    <module>eshop-event-consumer</module>
   </modules>
 
   <parent>
@@ -180,6 +180,17 @@
         <groupId>org.apache.tomcat.embed</groupId>
         <artifactId>tomcat-embed-core</artifactId>
         <version>9.0.83</version>
+      </dependency>
+      <!-- Spring Boot Redis dependency -->
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-data-redis</artifactId>
+        <version>${spring.boot.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>redis.clients</groupId>
+        <artifactId>jedis</artifactId>
+        <version>3.6.0</version>
       </dependency>
     </dependencies>
   </dependencyManagement>

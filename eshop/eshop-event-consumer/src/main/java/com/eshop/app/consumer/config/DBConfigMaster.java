@@ -1,8 +1,6 @@
 package com.eshop.app.consumer.config;
 
-
-import com.eshop.app.common.constants.AppConstants;
-import com.eshop.app.common.entities.rdbms.Catalog;
+import com.eshop.app.common.entities.rdbms.Product;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.hibernate.jpa.HibernatePersistenceProvider;
@@ -21,47 +19,48 @@ import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
 import javax.sql.DataSource;
 import java.util.Properties;
 
 @Configuration
 @PropertySource("file:${config.file.path}config.properties")
-@EntityScan(basePackageClasses = Catalog.class)
-@EnableJpaRepositories(
-        basePackages = {"com.eshop.app.common.repositories.rdbms"}, entityManagerFactoryRef = "eShopCustomEntityManagerFactory",
-        transactionManagerRef = "eShopCustomTransactionManager"
+@EntityScan(basePackageClasses = Product.class)
+@EnableTransactionManagement
+@EnableJpaRepositories (
+        basePackages = {"com.eshop.app.common.repositories.rdbms.master"}, entityManagerFactoryRef = "eShopMasterEntityManagerFactory",
+        transactionManagerRef = "eShopMasterTransactionManager"
 )
 @EnableAutoConfiguration(exclude = {DataSourceTransactionManagerAutoConfiguration.class})
-public class DBConfig {
+public class DBConfigMaster {
     private static final String[] ENTITY_MANAGER_PACKAGES_TO_SCAN = {"com.eshop.app.common.entities.rdbms"};
 
     @Value("${jdbc.driver.classname}")
     private String driverClassName;
 
-    @Value("${primary.jdbc.url}")
+    @Value("${jdbc.master.url}")
     private String jdbcUrl;
 
-    @Value("${primary.jdbc.username}")
+    @Value("${jdbc.master.username}")
     private String userName;
 
-    @Value("${primary.jdbc.password}")
+    @Value("${jdbc.master.password}")
     private String password;
 
-    @Value("${primary.jdbc.poolSize.min}")
+    @Value("${jdbc.master.poolSize.min}")
     private Integer minimumIdle;
 
-    @Value("${primary.jdbc.poolSize.max}")
+    @Value("${jdbc.master.poolSize.max}")
     private Integer maximumPoolSize;
 
-    @Value("${primary.jdbc.connection.timeout}")
+    @Value("${jdbc.master.connection.timeout}")
     private Integer connectionTimeout;
 
     @Primary
-    @Bean(name = "primaryDbConfig")
-    public HikariConfig primaryDbConfig() {
+    @Bean (name = "masterDbConfig")
+    public HikariConfig masterDbConfig() {
         HikariConfig config = new HikariConfig();
         config.setDriverClassName(driverClassName);
         config.setJdbcUrl(jdbcUrl);
@@ -74,40 +73,41 @@ public class DBConfig {
         config.setConnectionTestQuery("SELECT 1");
         config.setLeakDetectionThreshold(1000L);
         config.setIdleTimeout(600000L);
-        config.setReadOnly(false); //PRIMARY
+        config.setReadOnly(false); //master
         return config;
     }
 
     @Primary
-    @Bean(name = "primaryDataSource")
-    public DataSource mySqlDataSource(@Qualifier("primaryDbConfig") HikariConfig primaryDbConfig) {
-        return new HikariDataSource(primaryDbConfig);
+    @Bean(name = "masterDataSource")
+    public DataSource mySqlDataSource(@Qualifier("masterDbConfig") HikariConfig masterDbConfig) {
+        return new HikariDataSource(masterDbConfig);
     }
 
     @Primary
-    @Bean(name = "eShopCustomEntityManagerFactory")
+    @Bean(name = "eShopMasterEntityManagerFactory")
     @PersistenceContext
-    public EntityManagerFactory eShopCustomEntityManagerFactory(@Qualifier("primaryDataSource") DataSource primaryDataSource) {
+    public LocalContainerEntityManagerFactoryBean eShopMasterEntityManagerFactory(@Qualifier("masterDataSource") DataSource masterDataSource) {
         LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
         entityManagerFactoryBean.setJpaVendorAdapter(vendorAdapater());
-        entityManagerFactoryBean.setDataSource(primaryDataSource);
+        entityManagerFactoryBean.setDataSource(masterDataSource);
         entityManagerFactoryBean.setPersistenceProviderClass(HibernatePersistenceProvider.class);
         entityManagerFactoryBean.setPackagesToScan(ENTITY_MANAGER_PACKAGES_TO_SCAN);
         entityManagerFactoryBean.setJpaProperties(addProperties());
-        entityManagerFactoryBean.setPersistenceUnitName(AppConstants.DB_NAME);
+        entityManagerFactoryBean.setPersistenceUnitName("master");
         entityManagerFactoryBean.afterPropertiesSet();
-        return entityManagerFactoryBean.getObject();
+        return entityManagerFactoryBean;
     }
 
     @Primary
-    @Bean(name = "eShopCustomTransactionManager")
-    public JpaTransactionManager eShopCustomTransactionManager(@Qualifier("eShopCustomEntityManagerFactory") EntityManagerFactory eShopCustomEntityManagerFactory) {
-        return new JpaTransactionManager(eShopCustomEntityManagerFactory);
+    @Bean(name = "eShopMasterTransactionManager")
+    public JpaTransactionManager eShopCustomTransactionManager(@Qualifier("eShopMasterEntityManagerFactory") LocalContainerEntityManagerFactoryBean eShopMasterEntityManagerFactory) {
+        return new JpaTransactionManager(eShopMasterEntityManagerFactory.getObject());
     }
 
+    @Primary
     @Bean(name = "platformTransactionManager")
-    public PlatformTransactionManager platformTransactionManager(@Qualifier("primaryDataSource") DataSource primaryDataSource) {
-        return new DataSourceTransactionManager(primaryDataSource);
+    public PlatformTransactionManager platformTransactionManager(@Qualifier("masterDataSource") DataSource masterDataSource) {
+        return new DataSourceTransactionManager(masterDataSource);
     }
 
     private HibernateJpaVendorAdapter vendorAdapater() {

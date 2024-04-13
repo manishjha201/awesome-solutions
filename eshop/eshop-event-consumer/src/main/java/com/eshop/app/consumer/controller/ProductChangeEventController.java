@@ -10,7 +10,7 @@ import lombok.Getter;
 @Builder
 @Getter
 public class ProductChangeEventController {
-    private String message;
+    private Object message;
     private IEshopEventInfoParser parser;
     private IEsShoppingFeedFilter filter;
     private INotificationService notificationService;

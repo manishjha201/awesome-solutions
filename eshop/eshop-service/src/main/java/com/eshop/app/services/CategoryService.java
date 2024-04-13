@@ -30,7 +30,6 @@ public class CategoryService implements ICategoryService {
 
     @Override
     public Category updateCategory(Long categoryId, Category updatedCategory) {
-        //READ FROM DB and UPDATE IF version matches
         return categoryRepository.save(updatedCategory);
     }
 

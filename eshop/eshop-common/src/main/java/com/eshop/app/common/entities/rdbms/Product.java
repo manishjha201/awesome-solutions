@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -17,7 +18,9 @@ import java.time.LocalDateTime;
 @Data
 @Entity
 @Table(name = "product")
-public class Product {
+public class Product implements Serializable {
+    private static final long serialVersionUID = -4248856148610251644L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -37,12 +40,6 @@ public class Product {
     @OneToOne(targetEntity = Inventory.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "id")
     private Inventory inventory;
-
-    /*
-    @ManyToOne(targetEntity = Category.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "id")
-    private Category category;
-    */
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
