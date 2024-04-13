@@ -1,5 +1,6 @@
 package com.eshop.app.models.req;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import lombok.Builder;
@@ -8,6 +9,7 @@ import org.apache.commons.lang3.ObjectUtils;
 
 @Data
 @Builder
+@JsonIgnoreProperties(ignoreUnknown = true)
 @JsonDeserialize(builder = ProductRequest.GetProductsRequestDtoBuilder.class)
 public class ProductRequest extends HttpRequest {
     Long productId;

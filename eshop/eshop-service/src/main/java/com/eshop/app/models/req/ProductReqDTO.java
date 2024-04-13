@@ -3,6 +3,7 @@ package com.eshop.app.models.req;
 import com.eshop.app.common.constants.Currency;
 import com.eshop.app.common.constants.Status;
 import com.eshop.app.utils.ValidateInputRequestHelper;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import lombok.Builder;
@@ -14,6 +15,7 @@ import java.math.BigDecimal;
 
 @Data
 @Builder
+@JsonIgnoreProperties(ignoreUnknown = true)
 @JsonDeserialize(builder = ProductReqDTO.ProductReqDTOBuilder.class)
 public class ProductReqDTO extends HttpRequest {
     private static final long serialVersionUID = -9170093570486603251L;
