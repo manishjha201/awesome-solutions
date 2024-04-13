@@ -1,6 +1,7 @@
 package com.eshop.app.consumer.handlers;
 
 import com.eshop.app.common.models.EShoppingChangeEvent;
+import com.eshop.app.consumer.factories.ChangeEventProcessorFactory;
 import com.eshop.app.consumer.task.manager.CircuitBreakerBasedThreadPoolExecutor;
 import com.eshop.app.consumer.task.manager.EShoppingLowVolumeProductTask;
 import com.eshop.app.consumer.task.manager.RecordManager;
@@ -49,15 +50,18 @@ public final class EShoppingEventHandler implements IEShoppingEventHandler {
         try {
             EShoppingChangeEvent changeEvent = eshopEventInfoParser.parse(message);
 
-            //TODO : INGEST IN ES AND THEN NOTIFY
-            EShoppingLowVolumeProductTask task = EShoppingLowVolumeProductTask.builder().event(changeEvent).notificationService(this.notificationService).build();
-            CompletableFuture<ProcessedFeedOutput> future = RecordManager.submitPayloadRequest(task);
-            future.thenAccept(result -> {
-                log.info("Submitted  task resp : {}" + result);
-            }).exceptionally(exception -> {
-                log.error("Exception occurred: {} ", exception);
-                return null;
-            });
+            //TODO : INGEST IN ES
+            Boolean isInLowInventory = new ChangeEventProcessorFactory().get(changeEvent.getProductChangeMetaData().getChangeType()).process(changeEvent);
+            if (isInLowInventory) {
+                EShoppingLowVolumeProductTask task = EShoppingLowVolumeProductTask.builder().event(changeEvent).notificationService(this.notificationService).build();
+                CompletableFuture<ProcessedFeedOutput> future = RecordManager.submitPayloadRequest(task);
+                future.thenAccept(result -> {
+                    log.info("Submitted  task resp : {}" + result);
+                }).exceptionally(exception -> {
+                    log.error("Exception occurred: {} ", exception);
+                    return null;
+                });
+            }
         } catch(BusinessException interruptedException) {
             log.error("Error processing the task {}", message, interruptedException);
             output.setIsSuccess(Boolean.FALSE);
