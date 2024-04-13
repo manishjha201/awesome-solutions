@@ -192,6 +192,12 @@
         <artifactId>jedis</artifactId>
         <version>3.6.0</version>
       </dependency>
+      <!-- Apache Commons Codec for MD5 Digest -->
+      <dependency>
+        <groupId>commons-codec</groupId>
+        <artifactId>commons-codec</artifactId>
+        <version>1.15</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 
