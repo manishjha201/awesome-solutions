@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-@Transactional(value = "eShopMasterTransactionManager", readOnly = false)
+@Transactional(value = "eShopMasterTransactionManager")
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 }

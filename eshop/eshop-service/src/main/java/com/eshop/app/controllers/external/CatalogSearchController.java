@@ -46,21 +46,28 @@ public class CatalogSearchController {
             @RequestParam(name = "page", defaultValue = "1") @Valid Integer pageNumber,
             @RequestParam(name = "page_size", defaultValue = "1") @Valid Integer pageSize,
             @RequestHeader(value = "loginId", required = false) String loginId) {
-        CatalogSearchQueryDto dto = CatalogSearchQueryDto.builder()
-                .searchKey(Utility.transformInput(querySearchKey))
-                .searchValue(querySearchValue)
-                .statusList(statuses)
-                .sortBy(sortBy)
-                .pageNumber(pageNumber)
-                .pageSize(pageSize)
-                .build();
-        validationService.validate(dto);
-        log.info("Request received for API={} with values : {}", "CATALOG_SEARCH_API", dto);
+        try {
+            CatalogSearchQueryDto dto = CatalogSearchQueryDto.builder()
+                    .searchKey(Utility.transformInput(querySearchKey))
+                    .searchValue(querySearchValue)
+                    .statusList(statuses)
+                    .sortBy(sortBy)
+                    .pageNumber(pageNumber)
+                    .pageSize(pageSize)
+                    .build();
+            validationService.validate(dto);
+            log.info("Request received for API={} with values : {}", "CATALOG_SEARCH_API", dto);
+            GenericResponseBody<SearchCatalogResponse> body = new GenericResponseBody<>();
+            SearchCatalogResponse resp = catalogSearchService.getCatalogDetails(dto, loginId);
+            body.setResponse(resp);
+            body.setResultInfo(ResultInfo.builder().resultCode(EShopResultCode.SUCCESS).build());
+            return new ResponseEntity<>(body, HttpStatus.OK);
+        } catch(Exception e) {
+            log.error("Exception occurred : {}", e);
+        }
         GenericResponseBody<SearchCatalogResponse> body = new GenericResponseBody<>();
-        SearchCatalogResponse resp = catalogSearchService.getCatalogDetails(dto, loginId);
-        body.setResponse(resp);
-        body.setResultInfo(ResultInfo.builder().resultCode(EShopResultCode.SUCCESS).build());
-        return new ResponseEntity<>(body, HttpStatus.OK);
+        body.setResultInfo(ResultInfo.builder().resultCode(EShopResultCode.FAILURE).build());
+        return new ResponseEntity<>(body, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 }

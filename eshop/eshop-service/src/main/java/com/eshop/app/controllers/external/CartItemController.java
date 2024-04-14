@@ -9,7 +9,9 @@ import com.eshop.app.models.resp.ResultInfo;
 import com.eshop.app.services.CartItemService;
 import com.eshop.app.services.IValidationService;
 import com.eshop.app.services.external.ShoppingCartService;
+import com.eshop.app.utils.Utility;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 
+@Slf4j
 @RestController
 @RequestMapping("/user/api/v1/cart")
 public class CartItemController {
@@ -36,22 +39,32 @@ public class CartItemController {
     //TODO : Add swagger
     @GetMapping("/{userId}")
     public ResponseEntity<GenericResponseBody<CartProductResp>> getCartItems(@Valid @PathVariable Long userId, @RequestHeader(value = "loginId", required = false) String loginId, @RequestHeader(value = "estoken", required = true) String estoken) {
-        CartProductResp resp = cartItemService.getCartItemsByUserId(userId, loginId, estoken);
-        GenericResponseBody<CartProductResp> body = new GenericResponseBody<>();
-        body.setResponse(resp);
-        body.setResultInfo(ResultInfo.builder().resultCode(EShopResultCode.SUCCESS).build());
-        return new ResponseEntity<>(body, HttpStatus.OK);
+        try {
+            CartProductResp resp = cartItemService.getCartItemsByUserId(userId, loginId, estoken);
+            GenericResponseBody<CartProductResp> body = new GenericResponseBody<>();
+            body.setResponse(resp);
+            body.setResultInfo(ResultInfo.builder().resultCode(EShopResultCode.SUCCESS).build());
+            return new ResponseEntity<>(body, HttpStatus.OK);
+        } catch(Exception e) {
+            log.error("Exception occurred : for loginId {} ", loginId, e);
+            return Utility.buildfailResponse(e);
+        }
     }
 
     //TODO : Add swagger
     @PostMapping
     public ResponseEntity<GenericResponseBody<CartProductResp>> addCartItem(@RequestBody CartProductReq dto, @RequestHeader(value = "loginId", required = false) String loginId, @RequestHeader(value = "estoken", required = true) String estoken) throws JsonProcessingException {
-        validationService.validate(dto);
-        CartProductResp resp = cartItemService.addCartItem(dto, loginId, estoken);
-        GenericResponseBody<CartProductResp> body = new GenericResponseBody<>();
-        body.setResponse(resp);
-        body.setResultInfo(ResultInfo.builder().resultCode(EShopResultCode.SUCCESS).build());
-        return new ResponseEntity<>(body, HttpStatus.ACCEPTED);
+        try {
+            validationService.validate(dto);
+            CartProductResp resp = cartItemService.addCartItem(dto, loginId, estoken);
+            GenericResponseBody<CartProductResp> body = new GenericResponseBody<>();
+            body.setResponse(resp);
+            body.setResultInfo(ResultInfo.builder().resultCode(EShopResultCode.SUCCESS).build());
+            return new ResponseEntity<>(body, HttpStatus.ACCEPTED);
+        } catch(Exception e) {
+            log.error("Exception occurred : for loginId {} ", loginId, e);
+            return Utility.buildfailResponse(e);
+        }
     }
 
     /**
