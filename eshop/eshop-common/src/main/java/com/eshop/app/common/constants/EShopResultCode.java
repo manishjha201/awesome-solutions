@@ -10,7 +10,8 @@ public enum EShopResultCode {
     SUCCESS("00000", "S", "Success"),
     NOT_FOUND("00001", "F", "Entry is not available"),
     INVALID_INPUT("00002", "F", "Invalid input"),
-    SYSTEM_ERROR("00003", "F", "Internal error");
+    SYSTEM_ERROR("00003", "F", "Internal error"),
+    PRODUCT_STOCK_NOT_AVAILABLE("00003", "F", "Product stock not available at this moment");
 
     private final String resultCode;
     private final String status;

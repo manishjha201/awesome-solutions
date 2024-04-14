@@ -2,10 +2,9 @@ package com.eshop.app.utils;
 
 import com.eshop.app.common.constants.CatalogSearchKey;
 import com.eshop.app.common.constants.EShopResultCode;
+import com.eshop.app.common.entities.rdbms.CartProduct;
 import com.eshop.app.exception.ValidationException;
-import com.eshop.app.models.req.CatalogSearchQueryDto;
-import com.eshop.app.models.req.ProductReqDTO;
-import com.eshop.app.models.req.ProductUpdateReqDTO;
+import com.eshop.app.models.req.*;
 import org.apache.commons.lang3.ObjectUtils;
 
 public final class ValidateInputRequestHelper {
@@ -82,6 +81,33 @@ public final class ValidateInputRequestHelper {
             throw new ValidationException(EShopResultCode.INVALID_INPUT, "One or more vales or values used are invalid or not allowed to be updated.");
         }
 
+        return true;
+    }
+
+    public static boolean validateUserReq(UserLoginReqDTO dto) {
+        if (!isSafeText(dto.getName())) {
+            throw new ValidationException(EShopResultCode.INVALID_INPUT, "One or more vales or values used are invalid or not allowed to be updated.");
+        }
+        if (!isSafeText(dto.getUsername())) {
+            throw new ValidationException(EShopResultCode.INVALID_INPUT, "One or more vales or values used are invalid or not allowed to be updated.");
+        }
+        if (!isSafeText(dto.getEmail())) {
+            throw new ValidationException(EShopResultCode.INVALID_INPUT, "One or more vales or values used are invalid or not allowed to be updated.");
+        }
+        if (!isSafeText(dto.getLoginId())) {
+            throw new ValidationException(EShopResultCode.INVALID_INPUT, "One or more vales or values used are invalid or not allowed to be updated.");
+        }
+        return true;
+    }
+
+    public static boolean isValidCartProductReq(CartProduct cartItem) {
+        return true; //TODO : pending
+    }
+
+    public static boolean validatePaymentRequest(CartPaymentReq dto) {
+        if (!isSafeText(dto.getPaymentChannel())) {
+            throw new ValidationException(EShopResultCode.INVALID_INPUT, "One or more vales or values used are invalid or not allowed to be updated.");
+        }
         return true;
     }
 }

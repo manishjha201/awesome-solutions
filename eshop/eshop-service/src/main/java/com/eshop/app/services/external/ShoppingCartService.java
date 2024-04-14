@@ -1,50 +1,58 @@
 package com.eshop.app.services.external;
 
+import com.eshop.app.common.constants.EShopResultCode;
 import com.eshop.app.common.entities.rdbms.*;
+import com.eshop.app.common.exceptions.BusinessException;
 import com.eshop.app.common.repositories.nosql.es.ProductRepository;
 import com.eshop.app.common.repositories.rdbms.master.CartRepository;
 import com.eshop.app.common.repositories.rdbms.master.PaymentRequestRepository;
+import com.eshop.app.intercepters.UserContext;
+import com.eshop.app.mapper.req.RequestMapper;
+import com.eshop.app.models.req.CartPaymentReq;
+import com.eshop.app.services.IEShoppingCartService;
+import com.eshop.app.utils.Utility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.math.BigDecimal;
 
 @Service
-public class ShoppingCartService {
+public class ShoppingCartService implements IEShoppingCartService {
 
     @Autowired
     private ProductRepository productRepository;
+
     @Autowired
     private CartRepository cartRepository;
+
     @Autowired
     private PaymentRequestRepository paymentRequestRepository;
 
-    public void setPaymentDetails(Long cartId, PaymentRequest paymentDetails) throws Exception {
-        Cart cart = cartRepository.findById(cartId).orElseThrow(() -> new Exception("Cart not found"));
-        cart.setPaymentRequest(paymentDetails);
+    @Override
+    public void setPaymentDetails(CartPaymentReq dto, Long cartId, String loginId, String token) throws BusinessException {
+        User user = UserContext.getUserDetail();
+        Cart cart = cartRepository.findById(cartId).orElseThrow(() -> new BusinessException(EShopResultCode.NOT_FOUND.getResultCode()));
+        BigDecimal paymentAmount = Utility.preparePaymentAmount(cart);
+        PaymentRequest paymentRequest = RequestMapper.buildPaymentRequest(dto, user, paymentAmount);
+        cart.setPaymentRequest(paymentRequest);
         cartRepository.save(cart);
     }
 
-    public void processPayment(Long cartId) throws Exception {
-        Cart cart = cartRepository.findById(cartId).orElseThrow(() -> new Exception("Cart not found"));
-        PaymentRequest paymentDetails = cart.getPaymentRequest();
-        if (paymentDetails == null) {
-            throw new Exception("Payment details not set");
-        }
+    @Override
+    public void updatePaymentDetails(CartPaymentReq dto, Long paymentRequestId, Long cartId, String loginId, String token) throws BusinessException {
+        User user = UserContext.getUserDetail();
+        Cart cart = cartRepository.findById(cartId).orElseThrow(() -> new BusinessException(EShopResultCode.NOT_FOUND.getResultCode()));
+        BigDecimal paymentAmount = Utility.preparePaymentAmount(cart);
+        PaymentRequest paymentRequest = RequestMapper.buildPaymentRequest(dto, user, paymentAmount);
+        paymentRequest.setId(paymentRequestId);
+        cart.setPaymentRequest(paymentRequest);
+        cartRepository.save(cart);
+    }
 
-        // Here, handle different payment methods accordingly
-        if ("CreditCard".equals(paymentDetails.getPaymentMethod())) {
-            // Process credit card payment
-        } else if ("PayPal".equals(paymentDetails.getPaymentMethod())) {
-            // Process PayPal payment
-        }
-        // More payment methods as needed
-
-        // Process inventory and cart clearing as previously
-        for (CartProduct item : cart.getItems()) {
-            Product product = item.getProduct();
-            int remainingStock = product.getInventory().getQuantity() - item.getQuantity();
-            product.setInventory(Inventory.builder().build());
-            //productRepository.save(product);
-        }
+    @Override
+    public void processPayment(CartPaymentReq dto, Long paymentRequestId, Long cartId, String loginId, String token) throws BusinessException {
+        Cart cart = cartRepository.findById(cartId).orElseThrow(() -> new BusinessException(EShopResultCode.NOT_FOUND.getResultCode()));
+        PaymentRequest paymentDetails = paymentRequestRepository.findById(paymentRequestId).orElseThrow(() -> new BusinessException(EShopResultCode.NOT_FOUND.getResultCode()));
+        //TODO : Prepare purchase/ order fulfillment event and send over kafka topic.
         cartRepository.delete(cart);
     }
 }

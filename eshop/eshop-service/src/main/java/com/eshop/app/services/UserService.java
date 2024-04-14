@@ -2,6 +2,7 @@ package com.eshop.app.services;
 
 import com.eshop.app.common.entities.rdbms.User;
 import com.eshop.app.common.repositories.rdbms.master.UserRepository;
+import com.eshop.app.models.req.UserLoginReqDTO;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,24 +12,30 @@ import java.util.Base64;
 
 @Service
 public class UserService {
+
     @Autowired
     private UserRepository userRepository;
 
-    public void registerUser(String username, String password) {
+    public void register(UserLoginReqDTO dto) {
         String salt = generateSalt();
-        String passwordHash = hashPassword(password, salt);
-        User user = new User();
-        user.setUsername(username);
-         user.setPassword(passwordHash + ":" + salt);
+        String passwordHash = hashPassword(dto.getPassword(), salt);
+        User user = User.builder().username(dto.getUsername()).
+                password(passwordHash)
+                .version(1).isActive(Boolean.TRUE)
+                .tenantId(dto.getTenantId())
+                .role(dto.getRole())
+                .email(dto.getEmail())
+                .loginId(dto.getLoginId())
+                .build();
         userRepository.save(user);
     }
 
-    public boolean validatePassword(String userId, String password) {
-        User user = userRepository.findById(Long.getLong(userId)).orElse(null);
+    public boolean validateUser(UserLoginReqDTO dto) {
+        User user = userRepository.findById(dto.getId()).orElse(null);
         if (user == null) return false;
         String[] parts = user.getPassword().split(":");
-        String hash = hashPassword(password, parts[1]);
-        return hash.equals(parts[0]);
+        String hash = hashPassword(dto.getPassword(), parts[1]);
+        return hash.equals(parts[0]) && dto.getLoginId().equals(user.getLoginId());
     }
 
     private String generateSalt() {

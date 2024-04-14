@@ -1,5 +1,6 @@
 package com.eshop.app.models.resp;
 
+import com.eshop.app.common.entities.rdbms.CartProduct;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
@@ -10,11 +11,10 @@ import java.util.List;
 
 @Data
 @Builder
-@JsonDeserialize(builder = ProductsResponse.ProductsDetailResponseBuilder.class)
+@JsonDeserialize(builder = CartProductResp.CartProductRespBuilder.class)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ProductsResponse extends HttpResponse {
-    private static final long serialVersionUID = -4966133033063306971L;
-    private ProductResp response;
+public class CartProductResp extends HttpResponse {
+    List<CartProduct> cartProducts;
     @JsonPOJOBuilder(withPrefix = "")
-    public static class ProductsDetailResponseBuilder {}
+    public static class CartProductRespBuilder {}
 }
