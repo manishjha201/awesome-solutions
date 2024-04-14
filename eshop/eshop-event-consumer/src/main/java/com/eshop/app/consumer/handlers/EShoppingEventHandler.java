@@ -1,10 +1,7 @@
 package com.eshop.app.consumer.handlers;
 
 import com.eshop.app.common.models.EShoppingChangeEvent;
-import com.eshop.app.consumer.task.manager.CircuitBreakerBasedThreadPoolExecutor;
-import com.eshop.app.consumer.task.manager.EShoppingLowVolumeProductTask;
-import com.eshop.app.consumer.task.manager.RecordManager;
-import com.eshop.app.consumer.task.manager.ThreadExecutorConfig;
+import com.eshop.app.consumer.task.manager.*;
 import com.eshop.app.consumer.exceptions.BusinessException;
 import com.eshop.app.consumer.filters.IEsShoppingFeedFilter;
 import com.eshop.app.consumer.models.ProcessedFeedOutput;
@@ -51,12 +48,20 @@ public final class EShoppingEventHandler implements IEShoppingEventHandler {
 
             //TODO : INGEST IN ES
 
-
-
-
             Boolean isInLowInventory = new ChangeEventProcessorFactory().get(changeEvent.getProductChangeMetaData().getChangeType()).process(changeEvent);
             if (isInLowInventory) {
                 EShoppingLowVolumeProductTask task = EShoppingLowVolumeProductTask.builder().event(changeEvent).notificationService(this.notificationService).build();
+                CompletableFuture<ProcessedFeedOutput> future = RecordManager.submitPayloadRequest(task);
+                future.thenAccept(result -> {
+                    log.info("Submitted  task resp : {}" + result);
+                }).exceptionally(exception -> {
+                    log.error("Exception occurred: {} ", exception);
+                    return null;
+                });
+            }
+
+            if (isInLowInventory) { //TODO : move to different group id listener , use different threadPollExecutor
+                EShoppingESUpdateTask task = EShoppingESUpdateTask.builder().event(changeEvent).dataIngestionService(this.esDataIngestionService).build();
                 CompletableFuture<ProcessedFeedOutput> future = RecordManager.submitPayloadRequest(task);
                 future.thenAccept(result -> {
                     log.info("Submitted  task resp : {}" + result);

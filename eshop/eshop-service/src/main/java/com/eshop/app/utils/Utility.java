@@ -1,6 +1,7 @@
 package com.eshop.app.utils;
 
 import com.eshop.app.common.constants.Currency;
+import com.eshop.app.common.constants.EShopResultCode;
 import com.eshop.app.common.constants.Status;
 import com.eshop.app.common.entities.nosql.es.Product;
 import com.eshop.app.common.entities.rdbms.Cart;
@@ -8,6 +9,9 @@ import com.eshop.app.common.entities.rdbms.CartProduct;
 import com.eshop.app.exception.ValidationException;
 import com.eshop.app.models.req.CatalogSearchQueryDto;
 import com.eshop.app.models.req.ProductReqDTO;
+import com.eshop.app.models.resp.CartProductResp;
+import com.eshop.app.models.resp.GenericResponseBody;
+import com.eshop.app.models.resp.ResultInfo;
 import com.eshop.app.models.resp.SearchCatalogResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -18,6 +22,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import java.io.File;
 import java.io.IOException;
@@ -108,5 +114,14 @@ public final class Utility {
             grandTotal.add(toPay);
         }
         return grandTotal;
+    }
+
+    public static ResponseEntity<GenericResponseBody<CartProductResp>> buildfailResponse(Exception e) {
+        GenericResponseBody<CartProductResp> body = new GenericResponseBody<>();
+        ResultInfo info = ResultInfo.builder().resultCode(EShopResultCode.FAILURE).build();
+        info.setMessage(info.getMessage() + " " + e.getMessage());
+        info.setStatus(EShopResultCode.FAILURE.getStatus());
+        body.setResultInfo(info);
+        return new ResponseEntity<>(body, HttpStatus.ACCEPTED);
     }
 }

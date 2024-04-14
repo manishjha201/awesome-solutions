@@ -13,7 +13,6 @@ import java.util.Base64;
 @Service
 public class UserService {
 
-    @Autowired
     private UserRepository userRepository;
 
     public void register(UserLoginReqDTO dto) {
