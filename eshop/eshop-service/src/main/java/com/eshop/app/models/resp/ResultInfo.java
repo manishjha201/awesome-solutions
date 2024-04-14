@@ -1,6 +1,7 @@
 package com.eshop.app.models.resp;
 
 import com.eshop.app.common.constants.EShopResultCode;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,6 +12,7 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ResultInfo implements Serializable {
     private static final long serialVersionUID = 2603988135115524524L;
 

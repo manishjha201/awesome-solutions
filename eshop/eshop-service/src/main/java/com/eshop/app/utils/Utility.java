@@ -3,6 +3,8 @@ package com.eshop.app.utils;
 import com.eshop.app.common.constants.Currency;
 import com.eshop.app.common.constants.Status;
 import com.eshop.app.common.entities.nosql.es.Product;
+import com.eshop.app.common.entities.rdbms.Cart;
+import com.eshop.app.common.entities.rdbms.CartProduct;
 import com.eshop.app.exception.ValidationException;
 import com.eshop.app.models.req.CatalogSearchQueryDto;
 import com.eshop.app.models.req.ProductReqDTO;
@@ -20,6 +22,7 @@ import org.springframework.data.domain.Pageable;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import java.util.Random;
 
@@ -96,7 +99,14 @@ public final class Utility {
         return true;
     }
 
-    public static com.eshop.app.common.models.kafka.Product parseToKafkaProduct(com.eshop.app.common.entities.rdbms.Product input) {
-        return input == null ? null : input.build();
+
+
+    public static BigDecimal preparePaymentAmount(Cart cart) {
+        BigDecimal grandTotal = new BigDecimal(0.00d).setScale(2, RoundingMode.HALF_DOWN);
+        for (CartProduct next : cart.getItems()) {
+            BigDecimal toPay = next.getProduct().getPrice().multiply(BigDecimal.valueOf(next.getQuantity()).setScale(2, RoundingMode.HALF_UP));
+            grandTotal.add(toPay);
+        }
+        return grandTotal;
     }
 }

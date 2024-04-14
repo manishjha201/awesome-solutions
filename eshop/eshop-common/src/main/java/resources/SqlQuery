@@ -37,9 +37,9 @@ CREATE TABLE catalog (
     last_updated_by BIGINT,
     is_active BOOLEAN,
     version INT,
-    FOREIGN KEY (tenant_id) REFERENCES tenant(id),
-    FOREIGN KEY (created_by) REFERENCES user(id),
-    FOREIGN KEY (last_updated_by) REFERENCES user(id)
+    FOREIGN KEY (tenant_id) REFERENCES tenant(id)
+    --FOREIGN KEY (created_by) REFERENCES user(id),
+    --FOREIGN KEY (last_updated_by) REFERENCES user(id)
 );
 
 CREATE TABLE category (
@@ -55,9 +55,9 @@ CREATE TABLE category (
     last_updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     last_updated_by BIGINT,
     FOREIGN KEY (catalog_id) REFERENCES catalog(id),
-    FOREIGN KEY (tenant_id) REFERENCES tenant(id),
-    FOREIGN KEY (created_by) REFERENCES user(id),
-    FOREIGN KEY (last_updated_by) REFERENCES user(id)
+    FOREIGN KEY (tenant_id) REFERENCES tenant(id)
+    --FOREIGN KEY (created_by) REFERENCES user(id),
+    --FOREIGN KEY (last_updated_by) REFERENCES user(id)
 );
 
 CREATE TABLE product (
@@ -80,9 +80,9 @@ CREATE TABLE product (
     last_updated_by BIGINT,
     version INT,
     CONSTRAINT fk_product_category FOREIGN KEY (category_id) REFERENCES category(id),
-    CONSTRAINT fk_product_created_by FOREIGN KEY (created_by) REFERENCES user(id),
-    CONSTRAINT fk_product_last_updated_by FOREIGN KEY (last_updated_by) REFERENCES user(id),
-    CONSTRAINT fk_product_tenant FOREIGN KEY (tenant_id) REFERENCES tenant(id),
+    --CONSTRAINT fk_product_created_by FOREIGN KEY (created_by) REFERENCES user(id),
+    --CONSTRAINT fk_product_last_updated_by FOREIGN KEY (last_updated_by) REFERENCES user(id),
+    --CONSTRAINT fk_product_tenant FOREIGN KEY (tenant_id) REFERENCES tenant(id),
     CONSTRAINT ck_product_status CHECK (status IN ('ACTIVE', 'INACTIVE'))
 );
 
@@ -96,7 +96,7 @@ CREATE TABLE inventory (
     FOREIGN KEY (product_id) REFERENCES product(id)
 );
 
-CREATE TABLE cart_items (
+CREATE TABLE cart_product (
     id BIGINT PRIMARY KEY,
     product_id BIGINT NOT NULL,
     quantity INT NOT NULL,
@@ -107,14 +107,15 @@ CREATE TABLE cart_items (
     created_by VARCHAR(64) NOT NULL,
     last_updated_at TIMESTAMP,
     last_updated_by VARCHAR(64),
-    CONSTRAINT fk_product_id FOREIGN KEY (product_id) REFERENCES product(id),
-    CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES user(id),
-    CONSTRAINT fk_tenant_id FOREIGN KEY (tenant_id) REFERENCES tenant(id)
+    CONSTRAINT fk_product_id FOREIGN KEY (product_id) REFERENCES product(id)
+    --CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES user(id),
+    --CONSTRAINT fk_tenant_id FOREIGN KEY (tenant_id) REFERENCES tenant(id)
 );
 
-CREATE TABLE payment_requests (
+CREATE TABLE cart_payment_request (
     id BIGINT PRIMARY KEY,
     user_id BIGINT NOT NULL,
+    cart_product_id BIGINT NOT NULL
     amount NUMERIC(10, 2) NOT NULL,
     payment_status VARCHAR(64) NOT NULL,
     payment_channel VARCHAR(64) NOT NULL,
@@ -125,7 +126,7 @@ CREATE TABLE payment_requests (
     is_active BOOLEAN NOT NULL DEFAULT true,
     tenant_id BIGINT,
     version INT NOT NULL DEFAULT 0,
-
-    CONSTRAINT fk_payment_user_id FOREIGN KEY (user_id) REFERENCES user(id),
-    CONSTRAINT fk_payment_tenant_id FOREIGN KEY (tenant_id) REFERENCES tenant(id)
+    CONSTRAINT fk_payment_cart FOREIGN KEY (cart_product_id) REFERENCES cart_product(id)
+    --CONSTRAINT fk_payment_user_id FOREIGN KEY (user_id) REFERENCES user(id)
+    --CONSTRAINT fk_payment_tenant_id FOREIGN KEY (tenant_id) REFERENCES tenant(id)
 );

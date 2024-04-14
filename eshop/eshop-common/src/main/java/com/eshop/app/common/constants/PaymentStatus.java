@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum PaymentStatus {
-    PENDING("PENDING"), IN_PROGRESS("IN_PROGRESS"), COMPLETED("COMPLETED"), REVERSED("REVERSED");
+    INITIATED("INITIATED"),  PENDING("PENDING"), IN_PROGRESS("IN_PROGRESS"), COMPLETED("COMPLETED"), REVERSED("REVERSED");
     private final String value;
 
     PaymentStatus(String value) {
