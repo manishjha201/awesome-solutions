@@ -60,7 +60,7 @@ public final class EShoppingEventHandler implements IEShoppingEventHandler {
                 });
             }
 
-            if (isInLowInventory) { //TODO : move to different group id listener , use different threadPollExecutor
+            if (isInLowInventory) { //TODO : move to different group id listener , use different threadPoolExecutor
                 EShoppingESUpdateTask task = EShoppingESUpdateTask.builder().event(changeEvent).dataIngestionService(this.esDataIngestionService).build();
                 CompletableFuture<ProcessedFeedOutput> future = RecordManager.submitPayloadRequest(task);
                 future.thenAccept(result -> {
