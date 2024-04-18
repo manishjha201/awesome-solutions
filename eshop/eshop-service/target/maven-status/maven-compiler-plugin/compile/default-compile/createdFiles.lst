@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 com/eshop/app/controllers/internal/TenantController.class
 com/eshop/app/exception/ValidationException.class
 com/eshop/app/strategy/CustomFieldQueryBuilderForName.class
@@ -113,3 +114,13 @@ com/eshop/app/config/RedisConfig.class
 com/eshop/app/models/resp/CartProductResp$CartProductRespBuilder.class
 com/eshop/app/intercepters/TokenValidationInterceptor.class
 com/eshop/app/controllers/internal/CategoryController.class
+=======
+com/eshop/app/services/catalogue/ISearchCatalogueService.class
+com/eshop/app/config/CassandraConfig.class
+com/eshop/app/config/DBConfig.class
+com/eshop/app/services/catalogue/IInventoryCountService.class
+com/eshop/app/EShopApplication.class
+com/eshop/app/controllers/CatalogueSearchController.class
+com/eshop/app/services/catalogue/InventoryCountService.class
+com/eshop/app/services/catalogue/SearchCatalogueService.class
+>>>>>>> bd701e9 (stage1 : db tables and cassandra connection setup)
