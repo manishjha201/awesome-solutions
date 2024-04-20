@@ -22,13 +22,18 @@ The platform is structured around several key domain concepts:
 The workflow for both users and admins are as follows:
 
 ### User Workflow
-1. Search and select products.
+1. User Login and Navigation.
+2. Search and select products.
 2. Add products to the cart.
 3. Proceed for checkout.
 4. Do payment.
 
+### User Login and Navigation workflow
 ![User Workflow](images/eshopping_workflow_diagram.jpg)
 
+### Order Service Workflow
+![Order Orchestrator Service Workflow](images/eshopping_order_orchestrator_workflow.jpg)
+ 
 ### Admin Workflow
 1. Manage catalog and products.
 2. View and handle orders.
