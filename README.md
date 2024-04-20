@@ -38,6 +38,9 @@ The system employs a microservices architecture to ensure scalability and reliab
 
 ![Component Diagram](images/Eshopping_component_diagram.jpg)
 
+## Deployment Design
+![Container Diagram](images/Eshopping_container_diagram.jpg)
+
 ## Low-Level Design
 Please refer to the low-level design document for detailed API endpoints, database schema, and sequence diagrams that describe the interactions between various components.
 
