@@ -5,6 +5,14 @@
   <modelVersion>4.0.0</modelVersion>
   <packaging>pom</packaging>
 
+<<<<<<< HEAD
+=======
+  <modules>
+    <module>eshop-service</module>
+    <module>eshop-common</module>
+    <module>eshop-event-consumer</module>
+  </modules>
+>>>>>>> 8f0d440 (stage3 : kafka consumer setup)
 
   <parent>
     <groupId>org.springframework.boot</groupId>
@@ -37,7 +45,7 @@
     <javax.validation.version>1.1.0.Final</javax.validation.version>
     <junit.jupiter.version>5.8.1</junit.jupiter.version>
     <lombok.version>1.18.16</lombok.version>
-    <org.mapstruct.version>1.4.1.Final</org.mapstruct.version>
+    <org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
     <lombok.version>1.18.16</lombok.version>
     <spring.boot.version>2.7.18</spring.boot.version>
     <junit.version>5.8.1</junit.version>
@@ -53,10 +61,13 @@
     <commons.io.version>2.11.0</commons.io.version>
     <reactor.netty.core.version>1.0.39</reactor.netty.core.version>
     <google.gson.version>2.10.1</google.gson.version>
+<<<<<<< HEAD
     <json.patch.version>1.9</json.patch.version>
     <com.alibaba.version>1.2.83</com.alibaba.version>
     <mysql.connector.version>8.0.17</mysql.connector.version>
     <jnuit.version>4.11</jnuit.version>
+=======
+>>>>>>> 8f0d440 (stage3 : kafka consumer setup)
   </properties>
 
   <dependencyManagement>
@@ -166,6 +177,7 @@
         <artifactId>reactor-netty-core</artifactId>
         <version>${reactor.netty.core.version}</version>
       </dependency>
+<<<<<<< HEAD
       <dependency>
         <groupId>com.github.fge</groupId>
         <artifactId>json-patch</artifactId>
@@ -203,6 +215,8 @@
         <artifactId>commons-codec</artifactId>
         <version>1.15</version>
       </dependency>
+=======
+>>>>>>> 8f0d440 (stage3 : kafka consumer setup)
     </dependencies>
   </dependencyManagement>
 
