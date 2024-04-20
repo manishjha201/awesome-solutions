@@ -94,11 +94,11 @@ Please refer to the low-level design document for detailed API endpoints, databa
 7. **Release** : Canary
 8. **Monitoring** : Splunk, Datalog, Prometheous, MMS, Graffana
 9. **Failover** : Feature toggling, BackUp, DR, Multi-Region Deployment, AutoScaling.
-10 **Dashboard** : Dora, Graffana, Kitt Metrics API
-11 **Alert** : DataDog, PagerDuty, ServiceNow.
-12 **APM** : NewRelic
-13 **Schema Copy** : SchemaCrawler, ERBuilder
-14 **Deployment** : Kubernate, HPA, AutoScaler
+10. **Dashboard** : Dora, Graffana, Kitt Metrics API
+11. **Alert** : DataDog, PagerDuty, ServiceNow.
+12. **APM** : NewRelic
+13. **Schema Copy** : SchemaCrawler, ERBuilder
+14. **Deployment** : Kubernate, HPA, AutoScaler
 15. **Development** : Feature Branching, IntelliJ IDE 
 
 ## Installation
