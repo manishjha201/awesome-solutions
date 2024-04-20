@@ -47,6 +47,7 @@
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-elasticsearch</artifactId>
@@ -71,6 +72,9 @@
         </dependency>
 =======
 >>>>>>> bd701e9 (stage1 : db tables and cassandra connection setup)
+=======
+
+>>>>>>> 4f73113 (stage2 : db service and cassandra service setup)
     </dependencies>
 
     <build>
@@ -116,9 +120,13 @@
                     <version>${maven.project.info.reports.plugin.version}</version>
                 </plugin>
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
 >>>>>>> bd701e9 (stage1 : db tables and cassandra connection setup)
+=======
+
+>>>>>>> 4f73113 (stage2 : db service and cassandra service setup)
             </plugins>
         </pluginManagement>
     </build>

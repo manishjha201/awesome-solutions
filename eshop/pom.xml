@@ -5,16 +5,6 @@
   <modelVersion>4.0.0</modelVersion>
   <packaging>pom</packaging>
 
-  <modules>
-<<<<<<< HEAD
-    <module>eshop-common</module>
-    <module>eshop-service</module>
-    <module>eshop-event-consumer</module>
-=======
-    <module>eshop-service</module>
-    <module>eshop-common</module>
->>>>>>> bd701e9 (stage1 : db tables and cassandra connection setup)
-  </modules>
 
   <parent>
     <groupId>org.springframework.boot</groupId>
@@ -47,11 +37,7 @@
     <javax.validation.version>1.1.0.Final</javax.validation.version>
     <junit.jupiter.version>5.8.1</junit.jupiter.version>
     <lombok.version>1.18.16</lombok.version>
-<<<<<<< HEAD
-    <org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
-=======
     <org.mapstruct.version>1.4.1.Final</org.mapstruct.version>
->>>>>>> bd701e9 (stage1 : db tables and cassandra connection setup)
     <lombok.version>1.18.16</lombok.version>
     <spring.boot.version>2.7.18</spring.boot.version>
     <junit.version>5.8.1</junit.version>
@@ -59,7 +45,6 @@
     <eshop.common.version>1.0-SNAPSHOT</eshop.common.version>
     <javax.api.version>8.0.1</javax.api.version>
     <spring.boot.data.jdbc.version>2.7.18</spring.boot.data.jdbc.version>
-<<<<<<< HEAD
     <spring.data.elasticsearch.version>4.4.18</spring.data.elasticsearch.version>
     <elasticsearch.version>7.17.19</elasticsearch.version>
     <mysql.connector.version>8.0.17</mysql.connector.version>
@@ -70,10 +55,8 @@
     <google.gson.version>2.10.1</google.gson.version>
     <json.patch.version>1.9</json.patch.version>
     <com.alibaba.version>1.2.83</com.alibaba.version>
-=======
     <mysql.connector.version>8.0.17</mysql.connector.version>
     <jnuit.version>4.11</jnuit.version>
->>>>>>> bd701e9 (stage1 : db tables and cassandra connection setup)
   </properties>
 
   <dependencyManagement>
@@ -100,8 +83,6 @@
         <artifactId>spring-boot-starter-web</artifactId>
         <version>${spring.boot.version}</version>
       </dependency>
-<<<<<<< HEAD
-=======
 
       <!-- Spring Boot Starter Data Cassandra for Cassandra support -->
       <dependency>
@@ -110,7 +91,6 @@
         <version>${spring.boot.version}</version>
       </dependency>
 
->>>>>>> bd701e9 (stage1 : db tables and cassandra connection setup)
       <!-- mysql-rdbms-starts -->
       <dependency>
         <groupId>org.springframework.boot</groupId>
@@ -123,7 +103,6 @@
         <version>${spring.boot.data.jdbc.version}</version>
       </dependency>
       <dependency>
-<<<<<<< HEAD
         <groupId>org.springframework.data</groupId>
         <artifactId>spring-data-elasticsearch</artifactId>
         <exclusions>
@@ -145,8 +124,6 @@
         <version>${elasticsearch.version}</version>
       </dependency>
       <dependency>
-=======
->>>>>>> bd701e9 (stage1 : db tables and cassandra connection setup)
         <groupId>mysql</groupId>
         <artifactId>mysql-connector-java</artifactId>
         <version>${mysql.connector.version}</version>
@@ -164,7 +141,6 @@
         <version>${jnuit.version}</version>
         <scope>test</scope>
       </dependency>
-<<<<<<< HEAD
       <dependency>
         <groupId>com.google.code.gson</groupId>
         <artifactId>gson</artifactId>
@@ -227,8 +203,6 @@
         <artifactId>commons-codec</artifactId>
         <version>1.15</version>
       </dependency>
-=======
->>>>>>> bd701e9 (stage1 : db tables and cassandra connection setup)
     </dependencies>
   </dependencyManagement>
 
@@ -245,19 +219,6 @@
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
-<<<<<<< HEAD
-      <artifactId>spring-boot-starter-tomcat</artifactId>
-      <version>2.7.18</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.tomcat.embed</groupId>
-      <artifactId>tomcat-embed-core</artifactId>
-      <version>9.0.83</version>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-=======
->>>>>>> bd701e9 (stage1 : db tables and cassandra connection setup)
       <artifactId>spring-boot-starter-validation</artifactId>
       <version>${spring-boot-starter-validation.version}</version>
     </dependency>
@@ -276,7 +237,6 @@
       <artifactId>lombok</artifactId>
       <version>${lombok.version}</version>
     </dependency>
-<<<<<<< HEAD
     <dependency>
       <groupId>org.springframework.data</groupId>
       <artifactId>spring-data-elasticsearch</artifactId>
@@ -298,8 +258,6 @@
       <artifactId>elasticsearch</artifactId>
       <version>${elasticsearch.version}</version>
     </dependency>
-=======
->>>>>>> bd701e9 (stage1 : db tables and cassandra connection setup)
   </dependencies>
   <build>
     <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
