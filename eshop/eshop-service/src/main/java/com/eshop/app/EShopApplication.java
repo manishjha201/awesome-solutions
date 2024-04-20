@@ -3,12 +3,17 @@ package com.eshop.app;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+<<<<<<< HEAD
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.support.AbstractApplicationContext;
+import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
+>>>>>>> bd701e9 (stage1 : db tables and cassandra connection setup)
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.client.RestTemplate;
 
@@ -30,6 +35,7 @@ public class EShopApplication {
     private static void initializeApp(ApplicationContext ctx) {
         //TODO : enable write back caching
     }
+
 
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder builder) {

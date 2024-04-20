@@ -29,6 +29,13 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
+<<<<<<< HEAD
+=======
+            <artifactId>spring-boot-starter-data-cassandra</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+>>>>>>> bd701e9 (stage1 : db tables and cassandra connection setup)
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
         <dependency>
@@ -39,6 +46,7 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
+<<<<<<< HEAD
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-elasticsearch</artifactId>
@@ -61,6 +69,8 @@
             <groupId>org.elasticsearch</groupId>
             <artifactId>elasticsearch</artifactId>
         </dependency>
+=======
+>>>>>>> bd701e9 (stage1 : db tables and cassandra connection setup)
     </dependencies>
 
     <build>
@@ -105,7 +115,10 @@
                     <artifactId>maven-project-info-reports-plugin</artifactId>
                     <version>${maven.project.info.reports.plugin.version}</version>
                 </plugin>
+<<<<<<< HEAD
 
+=======
+>>>>>>> bd701e9 (stage1 : db tables and cassandra connection setup)
             </plugins>
         </pluginManagement>
     </build>

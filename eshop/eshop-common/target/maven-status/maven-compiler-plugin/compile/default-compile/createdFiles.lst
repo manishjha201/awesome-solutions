@@ -1,0 +1,9 @@
+com/eshop/app/common/entities/rdbms/Tenant.class
+com/eshop/app/common/repositories/rdbms/CatalogRepository.class
+com/eshop/app/common/entities/rdbms/Catalog.class
+com/eshop/app/common/constants/AppConstants.class
+com/eshop/app/common/constants/Role.class
+com/eshop/app/common/entities/rdbms/Category.class
+com/eshop/app/common/entities/rdbms/User.class
+com/eshop/app/common/entities/rdbms/Catalog$CatalogBuilder.class
+com/eshop/app/common/entities/rdbms/Product.class

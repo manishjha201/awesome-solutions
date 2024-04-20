@@ -1,0 +1,83 @@
+CREATE TABLE tenant (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255),
+    created_by BIGINT,
+    created_at DATETIME DEFAULT NOW(),
+    last_updated_by BIGINT,
+    last_updated_at DATETIME DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+    is_active BOOLEAN DEFAULT TRUE,
+    version INT DEFAULT 0
+) ENGINE=InnoDB;
+
+CREATE TABLE user (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(255),
+    name VARCHAR(255),
+    email VARCHAR(255),
+    role ENUM('ADMIN', 'USER') DEFAULT 'USER',
+    tenant_id BIGINT,
+    created_at DATETIME DEFAULT NOW(),
+    is_active BOOLEAN DEFAULT TRUE,
+    version INT DEFAULT 0,
+    FOREIGN KEY (tenant_id) REFERENCES tenant(id)
+) ENGINE=InnoDB;
+
+
+CREATE TABLE category (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255),
+    tenant_id BIGINT,
+    created_by BIGINT,
+    created_at DATETIME DEFAULT NOW(),
+    last_updated_by BIGINT,
+    last_updated_at DATETIME DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+    is_active BOOLEAN DEFAULT TRUE,
+    version INT DEFAULT 0,
+    FOREIGN KEY (tenant_id) REFERENCES tenant(id),
+    FOREIGN KEY (created_by) REFERENCES user(id),
+    FOREIGN KEY (last_updated_by) REFERENCES user(id)
+) ENGINE=InnoDB;
+
+CREATE TABLE catalog (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255),
+    tenant_id BIGINT,
+    created_by BIGINT,
+    created_at DATETIME DEFAULT NOW(),
+    last_updated_by BIGINT,
+    last_updated_at DATETIME DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+    is_active BOOLEAN DEFAULT TRUE,
+    version INT DEFAULT 0,
+    FOREIGN KEY (tenant_id) REFERENCES tenant(id),
+    FOREIGN KEY (created_by) REFERENCES user(id),
+    FOREIGN KEY (last_updated_by) REFERENCES user(id)
+) ENGINE=InnoDB;
+
+CREATE TABLE product (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255),
+    price DECIMAL(10,2),
+    catalog_id BIGINT,
+    category_id BIGINT,
+    tenant_id BIGINT,
+    image_url VARCHAR(255),
+    created_by BIGINT,
+    created_at DATETIME DEFAULT NOW(),
+    last_updated_by BIGINT,
+    last_updated_at DATETIME DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+    is_active BOOLEAN DEFAULT TRUE,
+    version INT DEFAULT 0,
+    FOREIGN KEY (catalog_id) REFERENCES catalog(id),
+    FOREIGN KEY (category_id) REFERENCES category(id),
+    FOREIGN KEY (tenant_id) REFERENCES tenant(id),
+    FOREIGN KEY (created_by) REFERENCES user(id),
+    FOREIGN KEY (last_updated_by) REFERENCES user(id)
+) ENGINE=InnoDB;
+
+
+INSERT INTO product (name, price, catalog_id, category_id, tenant_id, image_url, created_by, last_updated_by)
+VALUES ('Product 1', 10.99, 1, 1, 1, 'image1.jpg', 6, 7),
+       ('Product 2', 20.50, 1, 2, 1, 'image2.jpg', 7, 8),
+       ('Product 3', 15.75, 2, 1, 2, 'image3.jpg', 8, 6),
+       ('Product 4', 8.99, 2, 2, 2, 'image4.jpg', 7, 8),
+       ('Product 5', 12.49, 3, 1, 3, 'image5.jpg', 8, 7);

@@ -1,8 +1,5 @@
 package com.eshop.app.common.entities.rdbms;
 
-import com.eshop.app.common.constants.Status;
-import com.eshop.app.common.constants.TenantType;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,19 +7,9 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Entity
-@Table(name = "tenant")
-public class Tenant {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    private String name;
-
     @Enumerated(EnumType.STRING)
     private TenantType type;
 

@@ -1,0 +1,8 @@
+/Users/manishjha/Documents/public_codes/awesome-solutions/eshop/eshop-service/src/main/java/com/eshop/app/EShopApplication.java
+/Users/manishjha/Documents/public_codes/awesome-solutions/eshop/eshop-service/src/main/java/com/eshop/app/services/catalogue/SearchCatalogueService.java
+/Users/manishjha/Documents/public_codes/awesome-solutions/eshop/eshop-service/src/main/java/com/eshop/app/controllers/CatalogueSearchController.java
+/Users/manishjha/Documents/public_codes/awesome-solutions/eshop/eshop-service/src/main/java/com/eshop/app/services/catalogue/InventoryCountService.java
+/Users/manishjha/Documents/public_codes/awesome-solutions/eshop/eshop-service/src/main/java/com/eshop/app/services/catalogue/ISearchCatalogueService.java
+/Users/manishjha/Documents/public_codes/awesome-solutions/eshop/eshop-service/src/main/java/com/eshop/app/services/catalogue/IInventoryCountService.java
+/Users/manishjha/Documents/public_codes/awesome-solutions/eshop/eshop-service/src/main/java/com/eshop/app/config/DBConfig.java
+/Users/manishjha/Documents/public_codes/awesome-solutions/eshop/eshop-service/src/main/java/com/eshop/app/config/CassandraConfig.java

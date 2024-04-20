@@ -13,6 +13,9 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "user")
 public class User {
@@ -22,13 +25,9 @@ public class User {
 
     private String username;
 
-    private String password;
-
     private String name;
 
     private String email;
-
-    private String loginId;
 
     @Enumerated(EnumType.STRING)
     private Role role;

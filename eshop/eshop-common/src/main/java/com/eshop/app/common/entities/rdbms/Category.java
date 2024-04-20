@@ -1,5 +1,6 @@
 package com.eshop.app.common.entities.rdbms;
 
+<<<<<<< HEAD
 import com.eshop.app.common.constants.Status;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,6 +14,10 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+=======
+import javax.persistence.*;
+
+>>>>>>> bd701e9 (stage1 : db tables and cassandra connection setup)
 @Entity
 @Table(name = "category")
 public class Category {
@@ -22,6 +27,7 @@ public class Category {
 
     private String name;
 
+<<<<<<< HEAD
     private String code;
 
     private String description;
@@ -43,4 +49,14 @@ public class Category {
 
     @Column(name = "last_updated_by")
     private String lastUpdatedBy;
+=======
+    @Column(name = "tenant_id")
+    private Long tenantId;
+
+    @Column(name = "created_by")
+    private Long createdBy;
+
+    @Column(name = "last_updated_by")
+    private Long lastUpdatedBy;
+>>>>>>> bd701e9 (stage1 : db tables and cassandra connection setup)
 }
