@@ -54,10 +54,12 @@ The workflow for both users and admins are as follows:
 ## Architecture
 The system employs a microservices architecture to ensure scalability and reliability. Below is the component diagram illustrating the primary services and their interactions.
 
-## Component Diagram : Inventory Service
+## Component Diagram
+
+### Inventory Service
 ![Component Diagram](images/Eshopping_component_diagram.jpg)
 
-## Component Diagram : Order Fullfillment
+### Order Fullfillment
 ![Warehouse Inbound outbound Diagram](images/eshopping_order_fullfillment.jpg)
 
 ## Checkout Orchestration Service
@@ -78,7 +80,6 @@ Please refer to the low-level design document for detailed API endpoints, databa
 ## Installation
 Provide step-by-step series of examples and explanations about how to get a development environment running. Mention prerequisites, environment setup, and deployment steps.
 
-```bash
 # Clone the repository
 git clone https://example.com/eshopping-platform.git
 
