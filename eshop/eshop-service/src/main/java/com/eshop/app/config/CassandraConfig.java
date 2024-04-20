@@ -13,7 +13,7 @@ import org.springframework.data.cassandra.repository.config.EnableCassandraRepos
 
 @Configuration
 @PropertySource("file:${config.file.path}config.properties")
-@EnableCassandraRepositories(basePackages = "com.eshop.app.common.repositories.nosql")
+@EnableCassandraRepositories(basePackages = "com.eshop.app.common.repositories.nosql.cassandra")
 public class CassandraConfig extends AbstractCassandraConfiguration {
 
     @Value("${nosql.cassandra.keyspace.name}")
