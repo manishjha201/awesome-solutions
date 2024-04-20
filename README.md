@@ -78,7 +78,7 @@ Please refer to the low-level design document for detailed API endpoints, databa
 ### Inventory Update Service
 ![Inventory Update Service Sequence Diagram](images/sequence_diagram.jpeg)
 
-### Design Patter 
+### Design Pattern 
 1. **Domain Driven Design** : Business-Oriented Design focuses on understanding and addressing the strategic requirements.
 2. **Event Based Communication** : For independenct and loosly coupled application.
 3. **Failure Isolation** : Containarise the error and localise error cascading.
@@ -105,7 +105,7 @@ Please refer to the low-level design document for detailed API endpoints, databa
 Provide step-by-step series of examples and explanations about how to get a development environment running. Mention prerequisites, environment setup, and deployment steps.
 
 # Clone the repository
-git clone https://example.com/eshopping-platform.git
+git clone https://github.com/manishjha201/awesome-solutions.git 
 
 # Navigate to the repository directory
 cd eshopping-platform
