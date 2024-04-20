@@ -46,6 +46,11 @@ The workflow for both users and admins are as follows:
 2. View and handle orders.
 3. Generate reports.
 
+## Domain Diagram
+![E-Shopping Domain Diagram](images/domain_diagram_eshop.jpg)
+
+
+
 ## Architecture
 The system employs a microservices architecture to ensure scalability and reliability. Below is the component diagram illustrating the primary services and their interactions.
 
