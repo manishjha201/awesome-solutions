@@ -14,7 +14,13 @@ This repository contains the source code and documentation for the E-Shopping Pl
 The platform is structured around several key domain concepts:
 - **Catalog**: Information about products and services.
 - **Product**: Items listed under the catalog for sale.
+- **Category**: A product category defines the classification of a product based on its name, description, Strategic Business Unit (SBU), Category Group like Mobile Devices etc and the type of item it represents.
 - **Cart**: Where users add products to purchase.
+- **Checkout**: Where users submit the cart and create order.
+- **Order**: Where users do the payment and on success create product dispatch request.
+
+
+
 
 ![Domain Diagram](images/eshopping_domain_diagram.jpg)
 
