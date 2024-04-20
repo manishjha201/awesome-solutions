@@ -78,6 +78,29 @@ Please refer to the low-level design document for detailed API endpoints, databa
 ### Inventory Update Service
 ![Inventory Update Service Sequence Diagram](images/sequence_diagram.jpeg)
 
+### Design Patter 
+1. **Domain Driven Design** : Business-Oriented Design focuses on understanding and addressing the strategic requirements.
+2. **Event Based Communication** : For independenct and loosly coupled application.
+3. **Failure Isolation** : Containarise the error and localise error cascading.
+4. **Flow Control** : Using Timeout, Circuit Breaker and forward retry.
+
+### Quality
+1. **Code** : CheckStyle, FindBug, SonarQuebe.
+2. **Code Coverage** : JaCoCo
+3. **Integration test** : Cocumber
+4. **Security** : OWASP ZAP, Fortify, Snyk
+5. **Performance** : JMeter
+6. **Automated DB migration** : DB Serenity
+7. **Release** : Canary
+8. **Monitoring** : Splunk, Datalog, Prometheous, MMS, Graffana
+9. **Failover** : Feature toggling, BackUp, DR, Multi-Region Deployment, AutoScaling.
+10 **Dashboard** : Dora, Graffana, Kitt Metrics API
+11 **Alert** : DataDog, PagerDuty, ServiceNow.
+12 **APM** : NewRelic
+13 **Schema Copy** : SchemaCrawler, ERBuilder
+14 **Deployment** : Kubernate, HPA, AutoScaler
+15. **Development** : Feature Branching, IntelliJ IDE 
+
 ## Installation
 Provide step-by-step series of examples and explanations about how to get a development environment running. Mention prerequisites, environment setup, and deployment steps.
 
