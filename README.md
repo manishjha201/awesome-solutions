@@ -57,7 +57,7 @@ The system employs a microservices architecture to ensure scalability and reliab
 ## Component Diagram : Inventory Service
 ![Component Diagram](images/Eshopping_component_diagram.jpg)
 
-## Component Diagram : Order fullfillment_Service
+## Component Diagram : Order Fullfillment
 ![Warehouse Inbound outbound Diagram](images/eshopping_order_fullfillment.jpg)
 
 ## Checkout Orchestration Service
