@@ -1,8 +1,7 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 # awesome-solutions
 Utilize these codes to discover remarkable solutions to intriguing design problems we encounter in our day-to-day lives while implementing large-scale solutions
-=======
->>>>>>> 56b3085 (page setup)
 <p align="center">
   <img src="images/leetcode-repo-logo.png" width="350" height="200">
 </p>
@@ -23,15 +22,11 @@ This repository contains LeetCode resources which are useful during interview pr
 - [LeetCode Format](https://chromewebstore.google.com/detail/leetcode-format/imogghebhifnnlgogigikjecilkicfpp): Adds Format code button on leetcode to format the code using Prettier code formatter.
 - [LeetHub v2](https://chromewebstore.google.com/detail/leethub-v2/mhanfgfagplhgemhjfeolkkdidbakocm?hl=en): Automatically integrate your Leetcode & GeeksforGeeks submissions to GitHub.
 - [LeetCode VS Code Extension](https://marketplace.visualstudio.com/items?itemName=LeetCode.vscode-leetcode): Solve LeetCode problems in VS Code.
-
-<<<<<<< HEAD
-=======
 ## Curated Problems
 - [Blind 75](https://neetcode.io/practice)
 - [Leetcode Top 100 Liked](https://leetcode.com/studyplan/top-100-liked/)
 - [Leetcode Top Interview 150](https://leetcode.com/studyplan/top-interview-150/)
 - [Leetcode 75](https://leetcode.com/studyplan/leetcode-75/)
->>>>>>> 56b3085 (page setup)
 
 ## Books
 - [Data Structures And Algorithms Made Easy](https://www.amazon.com/Data-Structures-Algorithms-Made-Easy-ebook/dp/B0CBW278NC/)
@@ -52,8 +47,5 @@ This repository contains LeetCode resources which are useful during interview pr
   - [Word Search II](https://leetcode.com/problems/word-search-ii/description/)
   - [Stream of Characters](https://leetcode.com/problems/stream-of-characters/description/)
 
-<<<<<<< HEAD
-=======
 
->>>>>>> 56b3085 (page setup)
 Your contributions are most welcome!
