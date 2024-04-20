@@ -24,7 +24,8 @@ The workflow for both users and admins are as follows:
 ### User Workflow
 1. Search and select products.
 2. Add products to the cart.
-3. Proceed to checkout and payment.
+3. Proceed for checkout.
+4. Do payment.
 
 ![User Workflow](images/eshopping_workflow_diagram.jpg)
 
@@ -36,9 +37,10 @@ The workflow for both users and admins are as follows:
 ## Architecture
 The system employs a microservices architecture to ensure scalability and reliability. Below is the component diagram illustrating the primary services and their interactions.
 
+### 1. Component Diagram : Inventory Service
 ![Component Diagram](images/Eshopping_component_diagram.jpg)
 
-## Deployment Design
+### 2. Deployment Diagram : Checkout Service
 ![Container Diagram](images/Eshopping_container_diagram.jpg)
 
 ## Low-Level Design
