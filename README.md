@@ -93,13 +93,19 @@ Please refer to the low-level design document for detailed API endpoints, databa
 6. **Automated DB migration** : DB Serenity
 7. **Release** : Canary
 8. **Monitoring** : Splunk, Datalog, Prometheous, MMS, Graffana
-9. **Failover** : Feature toggling, BackUp, DR, Multi-Region Deployment, AutoScaling.
+9. **Failover** : Feature toggling, BackUp, DR, Multi-Region Deployment, AutoScaling. Multi-Region replication.
 10. **Dashboard** : Dora, Graffana, Kitt Metrics API
 11. **Alert** : DataDog, PagerDuty, ServiceNow.
 12. **APM** : NewRelic
 13. **Schema Copy** : SchemaCrawler, ERBuilder
 14. **Deployment** : Kubernate, HPA, AutoScaler
-15. **Development** : Feature Branching, IntelliJ IDE 
+15. **Development** : Feature Branching, IntelliJ IDE
+16. **Network** : TLS, HTTP2.0
+
+## Security 
+1. **Data Integrity** : Add checksum to data/payload using client SDK. Detect Corrupted data on arrival.
+2. **DoS Prevention** : VM scaling quota, Anomaly Detection.
+3. **SQL Injection** : OWASP based for input sanity. Parameterised Query and Update. 
 
 ## Installation
 Provide step-by-step series of examples and explanations about how to get a development environment running. Mention prerequisites, environment setup, and deployment steps.
