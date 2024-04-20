@@ -1,0 +1,132 @@
+CREATE TABLE tenant (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255),
+    type ENUM('INTERNAL', 'EXTERNAL') DEFAULT 'INTERNAL',
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    created_by VARCHAR(255),
+    last_updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    last_updated_by VARCHAR(255),
+    status VARCHAR(45),
+    version INT,
+    CHECK (status IN ('ACTIVE', 'INACTIVE'))
+);
+
+CREATE TABLE user (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(255),
+    password VARCHAR(255),
+    name VARCHAR(255),
+    email VARCHAR(255),
+    loginId VARCHAR(255),
+    role ENUM('ADMIN', 'USER') DEFAULT 'USER',
+    tenant_id BIGINT,
+    created_at DATETIME DEFAULT NOW(),
+    is_active BOOLEAN DEFAULT TRUE,
+    version INT DEFAULT 0,
+    FOREIGN KEY (tenant_id) REFERENCES tenant(id)
+) ENGINE=InnoDB;
+
+CREATE TABLE catalog (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255),
+    description TEXT,
+    tenant_id BIGINT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_by BIGINT,
+    last_updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    last_updated_by BIGINT,
+    is_active BOOLEAN,
+    version INT,
+    FOREIGN KEY (tenant_id) REFERENCES tenant(id)
+    --FOREIGN KEY (created_by) REFERENCES user(id),
+    --FOREIGN KEY (last_updated_by) REFERENCES user(id)
+);
+
+CREATE TABLE category (
+    id bigint PRIMARY KEY,
+    name VARCHAR(255),
+    code VARCHAR(64),
+    description TEXT,
+    status VARCHAR(16),
+    catalog_id BIGINT,
+    tenant_id BIGINT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_by BIGINT,
+    last_updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    last_updated_by BIGINT,
+    FOREIGN KEY (catalog_id) REFERENCES catalog(id),
+    FOREIGN KEY (tenant_id) REFERENCES tenant(id)
+    --FOREIGN KEY (created_by) REFERENCES user(id),
+    --FOREIGN KEY (last_updated_by) REFERENCES user(id)
+);
+
+CREATE TABLE product (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    refID VARCHAR(255),
+    title VARCHAR(255),
+    name VARCHAR(255),
+    description TEXT,
+    price DECIMAL(19, 2),
+    currency VARCHAR(3),
+    category_id BIGINT,
+    inventory_id BIGINT,
+    status VARCHAR(10) not null default 'ACTIVE',
+    image_url VARCHAR(255),
+    tenant_id BIGINT,
+    is_es_updated BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP,
+    created_by BIGINT,
+    last_updated_at TIMESTAMP,
+    last_updated_by BIGINT,
+    version INT,
+    CONSTRAINT fk_product_category FOREIGN KEY (category_id) REFERENCES category(id),
+    --CONSTRAINT fk_product_created_by FOREIGN KEY (created_by) REFERENCES user(id),
+    --CONSTRAINT fk_product_last_updated_by FOREIGN KEY (last_updated_by) REFERENCES user(id),
+    --CONSTRAINT fk_product_tenant FOREIGN KEY (tenant_id) REFERENCES tenant(id),
+    CONSTRAINT ck_product_status CHECK (status IN ('ACTIVE', 'INACTIVE'))
+);
+
+CREATE TABLE inventory (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    in_stock BOOLEAN,
+    quantity INT,
+    reserved_quantity INT,
+    min_stock_quantity INT,
+    product_id BIGINT UNIQUE,
+    FOREIGN KEY (product_id) REFERENCES product(id)
+);
+
+CREATE TABLE cart_product (
+    id BIGINT PRIMARY KEY,
+    product_id BIGINT NOT NULL,
+    quantity INT NOT NULL,
+    user_id BIGINT NOT NULL,
+    status VARCHAR(64) NOT NULL,
+    tenant_id BIGINT,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    created_by VARCHAR(64) NOT NULL,
+    last_updated_at TIMESTAMP,
+    last_updated_by VARCHAR(64),
+    CONSTRAINT fk_product_id FOREIGN KEY (product_id) REFERENCES product(id)
+    --CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES user(id),
+    --CONSTRAINT fk_tenant_id FOREIGN KEY (tenant_id) REFERENCES tenant(id)
+);
+
+CREATE TABLE cart_payment_request (
+    id BIGINT PRIMARY KEY,
+    user_id BIGINT NOT NULL,
+    cart_product_id BIGINT NOT NULL
+    amount NUMERIC(10, 2) NOT NULL,
+    payment_status VARCHAR(64) NOT NULL,
+    payment_channel VARCHAR(64) NOT NULL,
+    created_at DATETIME DEFAULT NOW(),
+    created_by VARCHAR(64) NOT NULL,
+    last_updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    last_updated_by VARCHAR(64),
+    is_active BOOLEAN NOT NULL DEFAULT true,
+    tenant_id BIGINT,
+    version INT NOT NULL DEFAULT 0,
+    CONSTRAINT fk_payment_cart FOREIGN KEY (cart_product_id) REFERENCES cart_product(id)
+    --CONSTRAINT fk_payment_user_id FOREIGN KEY (user_id) REFERENCES user(id)
+    --CONSTRAINT fk_payment_tenant_id FOREIGN KEY (tenant_id) REFERENCES tenant(id)
+);
