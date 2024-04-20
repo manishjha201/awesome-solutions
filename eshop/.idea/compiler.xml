@@ -11,8 +11,8 @@
           <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct/1.4.2.Final/mapstruct-1.4.2.Final.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.16/lombok-1.18.16.jar" />
         </processorPath>
-        <module name="eshop-event-consumer" />
         <module name="eshop-common" />
+        <module name="eshop-event-consumer" />
         <module name="eshop-service" />
       </profile>
     </annotationProcessing>
