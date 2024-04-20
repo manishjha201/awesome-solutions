@@ -8,6 +8,7 @@
 *.ear
 *.nar
 *.pub
+*.idea*
 hs_err_pid*
 replay_pid*
 
