@@ -105,7 +105,7 @@ Please refer to the low-level design document for detailed API endpoints, databa
 ## Security 
 1. **Data Integrity** : Add checksum to data/payload using client SDK. Detect Corrupted data on arrival.
 2. **DoS Prevention** : VM scaling quota, Anomaly Detection.
-3. **SQL Injection** : OWASP based for input sanity. Parameterised Query and Update. 
+3. **SQL Injection** : OWASP library based input sanity. Parameterised Query for Fetch and Update. 
 
 ## Installation
 Provide step-by-step series of examples and explanations about how to get a development environment running. Mention prerequisites, environment setup, and deployment steps.
