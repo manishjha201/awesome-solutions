@@ -60,7 +60,8 @@ The system employs a microservices architecture to ensure scalability and reliab
 ![Component Diagram](images/Eshopping_component_diagram.jpg)
 
 ### Order Fullfillment
-![Warehouse Inbound outbound Diagram](images/eshopping_order_fullfillment.jpg)
+![Warehouse Inbound outbound Diagram](images/eshopping_order_fullfillment_v2.jpg)
+
 
 ## Checkout Orchestration Service
 ![Component Diagram](images/Eshopping_container_diagram.jpg)
