@@ -54,7 +54,8 @@ The system employs a microservices architecture to ensure scalability and reliab
 Please refer to the low-level design document for detailed API endpoints, database schema, and sequence diagrams that describe the interactions between various components.
 
 ![DB Schema](images/eshopping_schema.png)
-![Sequence Diagram](images/sequence_diagram.jpeg)
+![Transaction Service Sequence Diagram](images/eshopping_transaction_service.jpeg)
+![Inventory Update Service Sequence Diagram](images/sequence_diagram.jpeg)
 
 ## Installation
 Provide step-by-step series of examples and explanations about how to get a development environment running. Mention prerequisites, environment setup, and deployment steps.
